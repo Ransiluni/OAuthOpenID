@@ -52,7 +52,7 @@ public class home extends HttpServlet {
                     "<form action=\"https://localhost:9443/oauth2/authorize\" method=\"get\" name=\"OAuthRequest\" id=\"OAuthRequest\">\n"+
                         "<table class=\"user_pass_table\">\n"+
                             "<tr>" +
-                                "<td>Grant Type : </td><td><select id=\"grantType\" name=\"grantType\">\n"+
+                                "<td>Grant Type : </td><td><select id=\"grantType\" name=\"response_type\">\n"+
                                     "<option value=\"" + Constants.OAUTH2_GRANT_TYPE_CODE + "\" selected=\"selected\">Authorization Code</option>" +
                                     "<option value=\"" + Constants.OAUTH2_GRANT_TYPE_IMPLICIT + "\">Implicit</option></select>" +
                                 "</td>" +
@@ -61,24 +61,19 @@ public class home extends HttpServlet {
                                 "<td>Scope : </td><td colspan=\"4\"><input type=\"text\" name=\"scope\" id=\"scope\" value="+scope+" size=\"50\" readonly></td>" +
                             "</tr>\n"+
                             "<tr>" +
-                                "<td>Client Code : </td><td><input type=\"text\" name=\"clientCode\" id=\"clientCode\" placeholder=\"Enter clientCode\"  size=\"50\" ></td>" +
+                                "<td>Client Code : </td><td><input type=\"text\" name=\"clientCode\" id=\"client_id\" placeholder=\"Enter clientCode\"  size=\"50\" ></td>" +
                             "</tr>\n"+
                             "<tr>" +
                                 "<td>Authorization End Point : </td><td colspan=\"4\"><input type=\"text\" name=\"authEndpoint\" id=\"authEndpoint\" value="+authEndpoint+" size=\"50\" readonly></td>" +
                             "</tr>\n"+
                             "<tr>" +
-                                "<td>Callback URI : </td><td colspan=\"4\"><input type=\"text\" name=\"callbackURI\" id=\"callbackURI\" placeholder=\"Enter callback URI\"  size=\"50\" ></td></tr>\n"+
+                                "<td>Callback URI : </td><td colspan=\"4\"><input type=\"text\" name=\"redirect_uri\" id=\"callbackURI\" placeholder=\"Enter callback URI\"  size=\"50\" ></td>" +
+                            "</tr>\n"+
                             "<tr>" +
                                 "<td colspan=\"2\"><input type=\"submit\" name=\"authorize\" value=\"Authorize\"></td>" +
                             "</tr>" +
                         "</table>" +
                     "</form>\n"+
-                "<script>" +
-                    "function buildQuery(){" +
-                        "QueryBuilder qb = new QueryBuilder()" +
-                        "" +
-                    "}" +
-                "</script>" +
                 "</body>"+
                 "</html>"
         );
