@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import OAuthImplement.Constants;
 
 public class home extends HttpServlet {
 
@@ -47,20 +48,38 @@ public class home extends HttpServlet {
                 "<html>\n" +
                 "<head><title>" + title + "</title></head>\n" +
                 "<body bgcolor = \"#f0f0f0\">\n" +
-
-                "<h2>OAuth Prototype App</h2>\n"+
-                "<form action=\"authorizeUser.jsp\" method=\"post\" name=\"OAuthRequest\">\n"+
-                "<table class=\"user_pass_table\">\n"+
-                "<tr><td>Grant Type : </td><td><select id=\"grantType\" name=\"grantType\" onchange=\"setVisibility();\">\n"+
-                "<option value=\"<%=grantType%>\" selected=\"selected\">Authorization Code</option><option value=\"implicit\">Implicit</option></select></td></tr>\n"+
-                "<tr><td>Scope : </td><td colspan=\"4\"><input type=\"text\" name=\"scope\" value="+scope+" size=\"50\" readonly></td></tr>\n"+
-                "<tr><td>Client Code : </td><td><input type=\"text\" name=\"clientCode\" placeholder=\"Enter clientCode\"  size=\"50\" ></td></tr>\n"+
-                "<tr><td>Authorization End Point : </td><td colspan=\"4\"><input type=\"text\" name=\"authEndpoint\" value="+authEndpoint+" size=\"50\" readonly></td></tr>\n"+
-                "<tr><td>Callback URI : </td><td colspan=\"4\"><input type=\"text\" name=\"callbackURI\" placeholder=\"Enter callback URI\"  size=\"50\" ></td></tr>\n"+
-                "<tr><td colspan=\"2\"><input type=\"submit\" name=\"authorize\" value=\"Authorize\"></td></tr></table></form>\n"+
+                    "<h2>OAuth Prototype App</h2>\n"+
+                    "<form action=\"https://localhost:9443/oauth2/authorize\" method=\"get\" name=\"OAuthRequest\">\n"+
+                        "<table class=\"user_pass_table\">\n"+
+                            "<tr>" +
+                                "<td>Grant Type : </td><td><select id=\"grantType\" name=\"grantType\">\n"+
+                                    "<option value=\"" + Constants.OAUTH2_GRANT_TYPE_CODE + "\" selected=\"selected\">Authorization Code</option>" +
+                                    "<option value=\"" + Constants.OAUTH2_GRANT_TYPE_IMPLICIT + "\">Implicit</option></select>" +
+                                "</td>" +
+                            "</tr>\n"+
+                            "<tr>" +
+                                "<td>Scope : </td><td colspan=\"4\"><input type=\"text\" name=\"scope\" value="+scope+" size=\"50\" readonly></td>" +
+                            "</tr>\n"+
+                            "<tr>" +
+                                "<td>Client Code : </td><td><input type=\"text\" name=\"clientCode\" placeholder=\"Enter clientCode\"  size=\"50\" ></td>" +
+                            "</tr>\n"+
+                            "<tr>" +
+                                "<td>Authorization End Point : </td><td colspan=\"4\"><input type=\"text\" name=\"authEndpoint\" value="+authEndpoint+" size=\"50\" readonly></td>" +
+                            "</tr>\n"+
+                            "<tr>" +
+                                "<td>Callback URI : </td><td colspan=\"4\"><input type=\"text\" name=\"callbackURI\" placeholder=\"Enter callback URI\"  size=\"50\" ></td></tr>\n"+
+                            "<tr>" +
+                                "<td colspan=\"2\"><input type=\"submit\" name=\"authorize\" value=\"Authorize\"></td>" +
+                            "</tr>" +
+                        "</table>" +
+                    "</form>\n"+
                 "</body>"+
                 "</html>"
         );
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response){
+
     }
 
 
