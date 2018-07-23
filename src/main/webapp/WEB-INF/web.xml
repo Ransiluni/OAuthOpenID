@@ -17,6 +17,18 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>CodeBuilder</servlet-name>
+        <servlet-class>OAuthImplement.CodeBuilder</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CodeBuilder</servlet-name>
+        <url-pattern>/CodeBuilder</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>OAuthClient</servlet-name>
         <servlet-class>OAuthImplement.OAuthClient</servlet-class>
 

@@ -9,6 +9,7 @@ public class Constants {
 
     // oauth scopes
     public static final String SCOPE_OPENID = "openid";
+    public static final String state= "1234";
 
     // oauth grant type constants
     public static final String OAUTH2_GRANT_TYPE_CODE = "code";
