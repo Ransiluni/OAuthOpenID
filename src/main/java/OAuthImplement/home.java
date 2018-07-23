@@ -46,10 +46,9 @@ public class home extends HttpServlet {
 
         out.println(docType +
                 "<html>\n" +
-                "<head><title>" + title + "</title></head>\n" +
-                "<body bgcolor = \"#f0f0f0\">\n" +
+                "<head><title>" + title + "</title></head>\n" +"<body bgcolor = \"#f0f0f0\">\n" +
                     "<h2>OAuth Prototype App</h2>\n"+
-                    "<form action=\"https://localhost:9443/oauth2/authorize\" method=\"get\" name=\"OAuthRequest\" id=\"OAuthRequest\">\n"+
+                    "<form action=\"CodeBuilder\" method=\"get\" name=\"OAuthRequest\" id=\"OAuthRequest\">\n"+
                         "<table class=\"user_pass_table\">\n"+
                             "<tr>" +
                                 "<td>Grant Type : </td><td><select id=\"grantType\" name=\"response_type\">\n"+
@@ -70,7 +69,7 @@ public class home extends HttpServlet {
                                 "<td>Callback URI : </td><td colspan=\"4\"><input type=\"text\" name=\"redirect_uri\" id=\"callbackURI\" placeholder=\"Enter callback URI\"  size=\"50\" ></td>" +
                             "</tr>\n"+
                             "<tr>" +
-                                "<td colspan=\"2\"><input type=\"submit\" name=\"authorize\" value=\"Authorize\"></td>" +
+                                "<td colspan=\"2\"><input type=\"submit\" name=\"authorize\" value=\"Authorize\" onclick=\"alertVal()\"/></td>" +
                             "</tr>" +
                         "</table>" +
                     "</form>\n"+
