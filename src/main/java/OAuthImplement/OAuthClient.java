@@ -22,22 +22,27 @@ public class OAuthClient extends HttpServlet {
 
         out.println(docType +
             "<html>\n" +
-            "<head><title>" + title + "</title></head>\n" +
+            "<head>" +
+                "<title>" + title + "</title>\n" +
+            "</head>\n" +
             "<body>\n" +
                 "<h2>Getting Access Token and ID Token</h2>\n" +
-                "<form action=\"TokenCodeURL\" method=\"get\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
+                "<form action=\"https://localhost:9443/oauth2/token\" method=\"post\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
                     "<table class=\"user_pass_table\">\n"+
                         "<tr>" +
-                            "<td>Authorization Code  </td><td>: <input type=\"text\" name=authCode value=" + request.getParameter("code") + " size=\"50\" readonly></td>\n"+
+                        "<td>Grant Type  </td><td>: <input type=\"text\" name=grant_type value=\"authorization_code\" size=\"50\" readonly></td>\n"+
                         "</tr>\n"+
                         "<tr>" +
-                            "<td>Callback URI  </td><td colspan=\"4\">: <input type=\"text\" name=\"redirect_uri\" id=\"redirect_uri\" value=" + redirect_uri + "size=\"50\" ></td>" +
+                            "<td>Authorization Code  </td><td>: <input type=\"text\" name=code value=" + request.getParameter("code") + " size=\"50\" readonly></td>\n"+
                         "</tr>\n"+
                         "<tr>" +
-                            "<td>Token Endpoint  </td><td colspan=\"4\">:   <input type=\"text\" name=\"tokenEndpoint\" id=\"tokenEndpoint\" value="+ tokenEndpoint+ " size=\"50\" readonly></td>" +
+                            "<td>Callback URI  </td><td colspan=\"4\">: <input type=\"text\" name=\"redirect_uri\" id=\"redirect_uri\" size=\"50\" ></td>" +
                         "</tr>\n"+
+//                        "<tr>" +
+//                            "<td>Token Endpoint  </td><td colspan=\"4\">:   <input type=\"text\" name=\"tokenEndpoint\" id=\"tokenEndpoint\" value="+ tokenEndpoint+ " size=\"50\" readonly></td>" +
+//                        "</tr>\n"+
                         "<tr>" +
-                            "<td>Client Secret  </td><td>:  <input type=\"text\" name=\"client_secret\" id=\"client_secret\" size=\"50\" ></td>" +
+                            "<td>Client Secret  </td><td>:  <input type=\"password\" name=\"client_secret\" id=\"client_secret\" size=\"50\" ></td>" +
                         "</tr>\n"+
                         "<tr>" +
                             "<td colspan=\"2\"><input type=\"submit\" name=\"getTokens\" value=\"Get Tokens\"></td>" +

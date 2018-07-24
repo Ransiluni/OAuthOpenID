@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 public class TokenCodeURL extends HttpServlet {
 
 
-    public void service(HttpServletRequest request, HttpServletResponse response)
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 
         String authCode = request.getParameter("authCode");
@@ -20,7 +20,7 @@ public class TokenCodeURL extends HttpServlet {
 
 
         QueryBuilder tokenBuilder=new QueryBuilder();
-        tokenBuilder.append("authorization_code","authorization_code");
+        tokenBuilder.append("grant_type","authorization_code");
         tokenBuilder.append("code",authCode);
         tokenBuilder.append("redirect_uri",redirect_uri);
         tokenBuilder.append("client_id",Constants.client_id);
@@ -45,7 +45,7 @@ public class TokenCodeURL extends HttpServlet {
                 "</body>"+
                 "</html>"
         );
-        //response.sendRedirect(url);
+        response.sendRedirect(url);
 
     }
 

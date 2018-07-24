@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -12,7 +13,7 @@ import java.io.PrintWriter;
 public class AuthCodeURL extends HttpServlet {
 
 
-    public void service(HttpServletRequest request,HttpServletResponse response)
+    public void doGet(HttpServletRequest request,HttpServletResponse response)
             throws IOException, ServletException{
 
         String response_type = request.getParameter("response_type");
@@ -21,6 +22,9 @@ public class AuthCodeURL extends HttpServlet {
         Constants.client_id=clientCode;
         String authEndPoint = request.getParameter("authEndpoint");
         String redirect_uri = request.getParameter("redirect_uri");
+
+        HttpSession session = request.getSession();
+        session.setAttribute("redirect_uri", redirect_uri);
 
 
 
