@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 
 
-public class CodeBuilder extends HttpServlet {
+public class AuthCodeURL extends HttpServlet {
 
 
     public void service(HttpServletRequest request,HttpServletResponse response)
@@ -18,8 +18,12 @@ public class CodeBuilder extends HttpServlet {
         String response_type = request.getParameter("response_type");
         String scope = request.getParameter("scope");
         String clientCode = request.getParameter("clientCode");
+        Constants.client_id=clientCode;
         String authEndPoint = request.getParameter("authEndpoint");
         String redirect_uri = request.getParameter("redirect_uri");
+
+
+
 
         QueryBuilder codeBuilder=new QueryBuilder();
 
@@ -28,6 +32,7 @@ public class CodeBuilder extends HttpServlet {
         codeBuilder.append("client_id",clientCode);
         codeBuilder.append("state",Constants.state);
         codeBuilder.append("redirect_uri",redirect_uri);
+
 
         String url=codeBuilder.returnQuery(authEndPoint);
 

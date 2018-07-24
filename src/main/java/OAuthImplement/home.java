@@ -48,7 +48,7 @@ public class home extends HttpServlet {
                 "<html>\n" +
                 "<head><title>" + title + "</title></head>\n" +"<body bgcolor = \"#f0f0f0\">\n" +
                     "<h2>OAuth Prototype App</h2>\n"+
-                    "<form action=\"CodeBuilder\" method=\"get\" name=\"OAuthRequest\" id=\"OAuthRequest\">\n"+
+                    "<form action=\"AuthCodeURL\" method=\"get\" name=\"OAuthRequest\" id=\"OAuthRequest\">\n"+
                         "<table class=\"user_pass_table\">\n"+
                             "<tr>" +
                                 "<td>Grant Type : </td><td><select id=\"grantType\" name=\"response_type\">\n"+
