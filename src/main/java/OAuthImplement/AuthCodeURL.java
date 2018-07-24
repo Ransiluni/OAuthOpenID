@@ -25,6 +25,10 @@ public class AuthCodeURL extends HttpServlet {
 
         HttpSession session = request.getSession();
         session.setAttribute("redirect_uri", redirect_uri);
+        session.setAttribute("client_id", clientCode);
+        if(response_type.equals("code")){
+            session.setAttribute("grant_type", "authorization_code");
+        }
 
 
 
