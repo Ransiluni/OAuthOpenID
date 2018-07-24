@@ -27,7 +27,7 @@ public class OAuthClient extends HttpServlet {
             "</head>\n" +
             "<body>\n" +
                 "<h2>Getting Access Token and ID Token</h2>\n" +
-                "<form action=\"https://localhost:9443/oauth2/token?tenantDomain=wso2.com\" method=\"post\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
+                "<form action=\"https://localhost:9443/oauth2/token\" method=\"post\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
                     "<table class=\"user_pass_table\">\n"+
                         "<tr>" +
                         "<td>Grant Type  </td><td>: <input type=\"text\" name=grant_type value=\"authorization_code\" size=\"50\" readonly></td>\n"+
