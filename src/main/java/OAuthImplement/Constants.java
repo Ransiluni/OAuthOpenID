@@ -38,6 +38,7 @@ public class Constants {
     // application specific session attributes
     public static final String CODE = "code";
     public static final String ID_TOKEN = "id_token";
+    public static final String ID_TOKEN_TOKEN = "id_token token";
     public static final String RESULT = "result";
     public static final String TOKEN_VALIDATION = "valid";
 

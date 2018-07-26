@@ -39,16 +39,16 @@
         <url-pattern>OAuthClient</url-pattern>
     </servlet-mapping>
 
-  <servlet>
-    <servlet-name>TokenCodeURL</servlet-name>
-    <servlet-class>OAuthImplement.TokenCodeURL</servlet-class>
+    <servlet>
+        <servlet-name>TokenCodeURL</servlet-name>
+        <servlet-class>OAuthImplement.TokenCodeURL</servlet-class>
 
-  </servlet>
+    </servlet>
 
-  <servlet-mapping>
-    <servlet-name>TokenCodeURL</servlet-name>
-    <url-pattern>/TokenCodeURL</url-pattern>
-  </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TokenCodeURL</servlet-name>
+        <url-pattern>/TokenCodeURL</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>
