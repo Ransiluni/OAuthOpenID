@@ -50,5 +50,16 @@
         <url-pattern>/TokenCodeURL</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>TokenInfo</servlet-name>
+        <servlet-class>OAuthImplement.TokenInfo</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TokenInfo</servlet-name>
+        <url-pattern>/TokenInfo</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

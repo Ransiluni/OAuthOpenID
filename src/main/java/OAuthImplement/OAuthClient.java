@@ -133,11 +133,16 @@ public class OAuthClient extends HttpServlet {
                                 "}\n" +
                                 "return \"\";\n" +
                             "}" +
+                            "function decodeToken(){\n" +
+                                "var idToken = getIDToken();\n" +
+                                "var decodedToken = atob(idToken.split(\".\")[1]);\n" +
+                                "return decodedToken\n" +
+                            "}\n" +
                         "</script>\n" +
                     "</head>\n" +
                     "<body>\n" +
                         "<h2>Getting Access Token and ID Token for Implicit Type</h2>\n" +
-                        "<form action=\"\" id=\"tokenForm\" method=\"post\">\n" +
+                        "<form action=\"TokenInfo\" id=\"tokenForm\" method=\"get\">\n" +
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
@@ -167,6 +172,15 @@ public class OAuthClient extends HttpServlet {
                                             "document.getElementById(\"expiresIn\").value = getExpire();\n" +
                                         "</script>" +
                                 "</tr>\n" +
+                                "<tr>\n" +
+                                    "<td><input id=\"decodedToken\" name=\"decodedToken\" hidden/></td>\n" +
+                                         "<script type=\"text/javascript\">\n" +
+                                            "document.getElementById(\"decodedToken\").value = decodeToken();\n" +
+                                         "</script>" +
+                                "</tr>\n" +
+                                "<tr>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\"/></td>" +
+                                "</tr>" +
                             "</table>\n" +
                         "</form>" +
                     "</body>\n" +
