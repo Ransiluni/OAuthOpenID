@@ -34,37 +34,35 @@ public class OAuthClient extends HttpServlet {
             out.println(docType+
                     "<html>\n" +
                     "<head>" +
-                    "<title>" + title + "</title>\n" +
+                        "<title>" + title + "</title>\n" +
                     "</head>\n" +
                     "<body>\n" +
-                    "<h2>Getting Access Token and ID Token</h2>\n" +
-                    "<form action=\"JSON\" method=\"post\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
-                    "<form action=\"\" method=\"post\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
-                    "<table class=\"user_pass_table\">\n"+
-                    "<tr>" +
-                    "<td><input type=\"text\" name=grant_type value=\"" + grant_type + "\" size=\"50\" readonly hidden></td>\n"+
-                    "</tr>\n"+
-                    "<tr>" +
-                    "<td>Authorization Code  </td><td>: <input type=\"text\" name=code value=" + request.getParameter("code") + " size=\"50\" readonly></td>\n"+
-                    "</tr>\n"+
-                    "<tr>" +
-                    "<td>Callback URI  </td><td colspan=\"4\">: <input type=\"text\" name=\"redirect_uri\" id=\"redirect_uri\" value=\"" + redirect_uri +"\" size=\"50\" ></td>" +
-                    "</tr>\n"+
-                    "<tr>" +
-                    "<td>Token Endpoint  </td><td colspan=\"4\">:   <input type=\"text\" name=\"tokenEndpoint\" id=\"tokenEndpoint\" value=\"" + tokenEndpoint + "\" size=\"50\" ></td>" +
-                    "</tr>\n"+
-                    "<tr>" +
-                    "<td>Client ID  </td><td>:  <input type=\"text\" name=\"client_id\" id=\"client_id\" value=\"" + client_id +"\"size=\"50\" readonly></td>" +
-                    "</tr>\n"+
-                    "<tr>" +
-                    "<td>Client Secret  </td><td>:  <input type=\"password\" name=\"client_secret\" id=\"client_secret\" size=\"50\" ></td>" +
-                    "</tr>\n"+
-                    "<tr>" +
-                    "<td colspan=\"2\"><input type=\"submit\" name=\"getTokens\" value=\"Get Tokens\" onclick=\"changeEnd()\"></td>" +
-                    "</tr>" +
-                    "</table>" +
-                    "</form>\n" +
-
+                        "<h2>Getting Access Token and ID Token</h2>\n" +
+                        "<form action=\"JSON\" method=\"post\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
+                            "<table class=\"user_pass_table\">\n"+
+                                "<tr>" +
+                                    "<td><input type=\"text\" name=grant_type value=\"" + grant_type + "\" size=\"50\" readonly hidden></td>\n"+
+                                "</tr>\n"+
+                                "<tr>" +
+                                    "<td>Authorization Code  </td><td>: <input type=\"text\" name=code value=" + request.getParameter("code") + " size=\"50\" readonly></td>\n"+
+                                "</tr>\n"+
+                                "<tr>" +
+                                    "<td>Callback URI  </td><td colspan=\"4\">: <input type=\"text\" name=\"redirect_uri\" id=\"redirect_uri\" value=\"" + redirect_uri +"\" size=\"50\" ></td>" +
+                                "</tr>\n"+
+                                "<tr>" +
+                                    "<td>Token Endpoint  </td><td colspan=\"4\">:   <input type=\"text\" name=\"tokenEndpoint\" id=\"tokenEndpoint\" value=\"" + tokenEndpoint + "\" size=\"50\" ></td>" +
+                                "</tr>\n"+
+                                "<tr>" +
+                                    "<td>Client ID  </td><td>:  <input type=\"text\" name=\"client_id\" id=\"client_id\" value=\"" + client_id +"\"size=\"50\" readonly></td>" +
+                                "</tr>\n"+
+                                "<tr>" +
+                                    "<td>Client Secret  </td><td>:  <input type=\"password\" name=\"client_secret\" id=\"client_secret\" size=\"50\" ></td>" +
+                                "</tr>\n"+
+                                "<tr>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"getTokens\" value=\"Get Tokens\"></td>" +
+                                "</tr>" +
+                            "</table>" +
+                        "</form>\n" +
                     "</body>\n" +
                     "</html>"
             );
@@ -144,28 +142,28 @@ public class OAuthClient extends HttpServlet {
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
-                                    "<td><input id=\"accessToken\" name=\"accessToken\" style=\"width:450px\"/>\n" +
+                                    "<td><input id=\"accessToken\" name=\"accessToken\" style=\"width:450px\" readonly/>\n" +
                                          "<script type=\"text/javascript\">\n" +
                                             "document.getElementById(\"accessToken\").value = getAccessToken();\n" +
                                          "</script>" +
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>ID Token :</label></td>\n" +
-                                    "<td><textarea id=\"idToken\" name=\"idToken\" style=\"width:450px\" rows=\"20\" ></textarea>\n" +
+                                    "<td><textarea id=\"idToken\" name=\"idToken\" style=\"width:450px\" rows=\"20\" readonly></textarea>\n" +
                                         "<script type=\"text/javascript\">\n" +
                                             "document.getElementById(\"idToken\").value = getIDToken();\n" +
                                         "</script>" +
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>Token Type :</label></td>\n" +
-                                    "<td><input id=\"tokenType\" name=\"tokenType\"/>\n" +
+                                    "<td><input id=\"tokenType\" name=\"tokenType\" readonly/>\n" +
                                         "<script type=\"text/javascript\">\n" +
                                             "document.getElementById(\"tokenType\").value = getTokenType();\n" +
                                         "</script>" +
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>Expires In :</label></td>\n" +
-                                    "<td><input id=\"expiresIn\" name=\"expiresIn\"/>\n" +
+                                    "<td><input id=\"expiresIn\" name=\"expiresIn\" readonly/>\n" +
                                         "<script type=\"text/javascript\">\n" +
                                             "document.getElementById(\"expiresIn\").value = getExpire();\n" +
                                         "</script>" +
