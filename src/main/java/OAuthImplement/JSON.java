@@ -137,7 +137,7 @@ public class JSON extends HttpServlet {
                     "</head>\n" +
                     "<body>\n" +
                         "<h2>Getting Access Token and ID Token for Authorization Code</h2>\n" +
-                        "<form action=\"\" id=\"tokenForm\" method=\"get\">\n" +
+                        "<form action=\"TokenInfo\" id=\"tokenForm\" method=\"get\">\n" +
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
@@ -167,12 +167,12 @@ public class JSON extends HttpServlet {
                                 "<tr>" +
                                     "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\"/></td>" +
                                 "</tr>" +
-                                "<tr>\n" +
                                     "<td><input id=\"decodedToken\" name=\"decodedToken\" hidden/></td>\n" +
                                     "<script type=\"text/javascript\">\n" +
-                                        "document.getElementById(\"decodedToken\").value = atob(" + myResponse.getString("id_token") + ".split(\".\")[1]);\n" +
+                                    "var idToken = \""+myResponse.getString("id_token")+"\";\n" +
+                                    "var decodedToken = atob(idToken.split(\".\")[1]);\n" +
+                                    "document.getElementById(\"decodedToken\").value = decodedToken;\n" +
                                     "</script>" +
-                                "</tr>\n" +
                             "</table>\n" +
                         "</form>" +
                     "</body>\n" +
