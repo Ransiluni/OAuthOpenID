@@ -34,6 +34,7 @@ public class OAuthClient extends HttpServlet {
             "</head>\n" +
             "<body>\n" +
                 "<h2>Getting Access Token and ID Token</h2>\n" +
+                "<form action=\"JSON\" method=\"post\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
                 "<form action=\"\" method=\"post\" name=\"TokenRequest\" id=\"TokenRequest\">\n"+
                     "<table class=\"user_pass_table\">\n"+
                         "<tr>" +
@@ -59,12 +60,7 @@ public class OAuthClient extends HttpServlet {
                         "</tr>" +
                     "</table>" +
                 "</form>\n" +
-            "<script>\n" +
-                "function changeEnd(){" +
-                    "val = document.getElementById(\"tokenEndpoint\").value;" +
-                    "document.getElementById(\"TokenRequest\").action = val;" +
-                "}" +
-            "</script>\n"+
+
             "</body>\n" +
             "</html>"
         );

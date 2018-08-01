@@ -51,4 +51,17 @@
   </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>JSON</servlet-name>
+        <servlet-class>OAuthImplement.JSON</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>JSON</servlet-name>
+        <url-pattern>/JSON</url-pattern>
+    </servlet-mapping>
+
+
+
 </web-app>
