@@ -59,9 +59,15 @@ public class home extends HttpServlet {
                     "<form action=\"AuthCodeURL\" method=\"get\" name=\"OAuthRequest\" id=\"OAuthRequest\"autocomplete=\"on\">\n"+
                         "<table class=\"user_pass_table\">\n"+
                             "<tr>" +
-                                "<td>Grant Type : </td><td><select id=\"grantType\" name=\"response_type\">\n"+
+                                "<td>Grant Type : </td><td><select id=\"grantType\" name=\"grant_type\" onchange=\"setVisibility()\">\n"+
                                     "<option value=\"" + Constants.OAUTH2_GRANT_TYPE_CODE + "\" selected=\"selected\">Authorization Code</option>" +
                                     "<option value=\"" + Constants.OAUTH2_GRANT_TYPE_IMPLICIT + "\">Implicit</option></select>" +
+                                "</td>" +
+                            "</tr>\n"+
+                            "<tr id=\"implicit_response\" style=\"display:none\">" +
+                                "<td>Response Type : </td><td><select id=\"response_type\" name=\"response_type\">\n" +
+                                    "<option value=\"" + Constants.ID_TOKEN + "\" selected=\"selected\">ID Token</option>" +
+                                    "<option value=\"" + Constants.ID_TOKEN_TOKEN + "\">ID Token + Access Token</option></select>" +
                                 "</td>" +
                             "</tr>\n"+
                             "<tr>" +
@@ -80,7 +86,19 @@ public class home extends HttpServlet {
                                 "<td colspan=\"2\"><input type=\"submit\" name=\"authorize\" value=\"Authorize\" onclick=\"alertVal()\"/></td>" +
                             "</tr>" +
                         "</table>" +
-                    "</form>\n"+
+                    "</form>\n" +
+                "<script type=\"text/javascript\">" +
+                    "function setVisibility(){" +
+                        "var grantType = document.getElementById(\"grantType\").value;" +
+                        "if(\"code\" == grantType){" +
+                            "document.getElementById(\"implicit_response\").style.display = \"none\";" +
+                        "}" +
+                        "if(\"token\" == grantType){" +
+                            "document.getElementById(\"implicit_response\").style.display = \"\";" +
+                        "}" +
+                        "return true;" +
+                    "}" +
+                "</script>"+
                 "</body>"+
                 "</html>"
         );
