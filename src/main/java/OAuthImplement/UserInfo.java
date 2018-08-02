@@ -18,14 +18,7 @@ public class UserInfo extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String accessToken = request.getParameter("accessToken");
 
-        QueryBuilder tokenBuilder = new QueryBuilder();
-        tokenBuilder.append("Bearer", accessToken);
-
-
-        String url = "https://localhost:9443/oauth2/userinfo?schema=openid";
-
-        //BufferedReader reader = new BufferedReader(new InputStreamReader(((HttpURLConnection) (new URL(urlString)).openConnection()).getInputStream(), Charset.forName("UTF-8")));
-
+        String url = "https://localhost:9443/oauth2/userinfo";
 
         URL object  = new URL(url);
         HttpURLConnection con = (HttpURLConnection) object.openConnection();
