@@ -58,11 +58,19 @@ public class UserInfo extends HttpServlet {
                 "<title>" + title + "</title>" +
                 "</head>\n" +
                 "<body>\n" +
-                "<h2>User Information</h2>\n" +
-                "<label>"+myResponse+"</label>\n" +
-                "</body>\n" +
-                "</html>"
+                "<h2>User Information</h2>\n"
         );
+
+        for(Object key : myResponse.keySet()){
+            String keyStr = (String)key;
+            String value = myResponse.getString(keyStr);
+
+            out.println(
+                    "<label>" + keyStr + ": " + value + "</label>\n" +
+                    "</body>\n" +
+                    "</html>"
+            );
+        }
 
 
 

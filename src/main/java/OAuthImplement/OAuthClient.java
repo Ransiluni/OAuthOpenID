@@ -231,12 +231,18 @@ public class OAuthClient extends HttpServlet {
                                     "<td><input id=\"decodedToken\" name=\"decodedToken\" hidden/></td>\n" +
                                          "<script type=\"text/javascript\">\n" +
                                             "document.getElementById(\"decodedToken\").value = decodeToken();\n" +
-                                         "</script>" +
+                                         "</script>\n" +
                                 "</tr>\n" +
-                                "<tr>" +
+                                "<tr>\n" +
                                     "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\" /></td>" +
-                                    "<td colspan=\"2\"><input type=\"submit\" name=\"userInfo\" value=\"User Info\" formaction=\"UserInfo\" /></td>" +
-                                "</tr>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" id=\"uinfo\" name=\"userInfo\" value=\"User Info\" formaction=\"UserInfo\" /></td>" +
+                                    "<script>\n" +
+                                        "var at = getAccessToken();\n" +
+                                        "if(at == \"\"){\n" +
+                                            "document.getElementById(\"uinfo\").style.display = \"none\";\n" +
+                                        "}" +
+                                    "</script>\n" +
+                                "</tr>\n" +
                             "</table>\n" +
                         "</form>" +
                     "</body>\n" +
