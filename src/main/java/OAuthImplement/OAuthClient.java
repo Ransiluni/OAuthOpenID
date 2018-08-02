@@ -138,7 +138,7 @@ public class OAuthClient extends HttpServlet {
                     "</head>\n" +
                     "<body>\n" +
                         "<h2>Getting Access Token and ID Token for Implicit Type</h2>\n" +
-                        "<form action=\"TokenInfo\" id=\"tokenForm\" method=\"get\">\n" +
+                        "<form action=\"\" id=\"tokenForm\" method=\"get\">\n" +
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
@@ -175,7 +175,8 @@ public class OAuthClient extends HttpServlet {
                                          "</script>" +
                                 "</tr>\n" +
                                 "<tr>" +
-                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\"/></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\" /></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"userInfo\" value=\"User Info\" formaction=\"UserInfo\" /></td>" +
                                 "</tr>" +
                             "</table>\n" +
                         "</form>" +
