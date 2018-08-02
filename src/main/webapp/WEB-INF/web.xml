@@ -72,6 +72,16 @@
         <servlet-name>JSON</servlet-name>
         <url-pattern>/JSON</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>UserInfo</servlet-name>
+        <servlet-class>OAuthImplement.UserInfo</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserInfo</servlet-name>
+        <url-pattern>/UserInfo</url-pattern>
+    </servlet-mapping>
 
 
 

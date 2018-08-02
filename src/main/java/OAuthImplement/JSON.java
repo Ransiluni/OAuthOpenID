@@ -29,7 +29,7 @@ public class JSON extends HttpServlet {
 
         // All the code below is to overcome host name verification failure we get in certificate
         // validation due to self-signed certificate.
-        
+
         try {
 
             SSLContext sc;
@@ -137,7 +137,7 @@ public class JSON extends HttpServlet {
                     "</head>\n" +
                     "<body>\n" +
                         "<h2>Getting Access Token and ID Token for Authorization Code</h2>\n" +
-                        "<form action=\"TokenInfo\" id=\"tokenForm\" method=\"get\">\n" +
+                        "<form action=\"\" id=\"tokenForm\" method=\"get\">\n" +
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
@@ -165,23 +165,24 @@ public class JSON extends HttpServlet {
                                 "</tr>\n" +
                                 "<tr>\n" +
                                 "<tr>" +
-                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\"/></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\"/></td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"User Info\" formaction=\"UserInfo\"/></td>" +
                                 "</tr>" +
                                     "<td><input id=\"decodedToken\" name=\"decodedToken\" hidden/></td>\n" +
-                                    "<script type=\"text/javascript\">\n" +
-                                    "var idToken = \""+myResponse.getString("id_token")+"\";\n" +
-                                    "var decodedToken = atob(idToken.split(\".\")[1]);\n" +
-                                    "document.getElementById(\"decodedToken\").value = decodedToken;\n" +
-                                    "</script>" +
+                                        "<script type=\"text/javascript\">\n" +
+                                        "var idToken = \""+myResponse.getString("id_token")+"\";\n" +
+                                        "var decodedToken = atob(idToken.split(\".\")[1]);\n" +
+                                        "document.getElementById(\"decodedToken\").value = decodedToken;\n" +
+                                        "</script>" +
                             "</table>\n" +
                         "</form>" +
                     "</body>\n" +
                 "</html>"
         );
 
-
     }
 
 
 }
-
