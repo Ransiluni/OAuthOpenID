@@ -22,7 +22,7 @@ public class UserInfo extends HttpServlet {
         tokenBuilder.append("Bearer", accessToken);
 
 
-        String url = "https://localhost:9443/oauth2/userinfo";
+        String url = "https://localhost:9443/oauth2/userinfo?schema=openid";
 
         //BufferedReader reader = new BufferedReader(new InputStreamReader(((HttpURLConnection) (new URL(urlString)).openConnection()).getInputStream(), Charset.forName("UTF-8")));
 
