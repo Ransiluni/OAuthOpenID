@@ -84,7 +84,8 @@ public class JSON extends HttpServlet {
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
-                                    "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" readonly/>\n" +
+                                    "<td><input id=\"accessToken1\" name=\"accessToken1\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" readonly/>\n" +
+                                    "<td><input id=\"accessToken\" name=\"accessToken\"  style=\"width:450px\" hidden/>\n" +
                                     "<script type=\"text/javascript\">\n" +
                                     "var idToken = \""+myResponse.getString("access_token")+"\";\n" +
                                     "var accessToken = atob(idToken.split(\".\")[1]);\n" +
