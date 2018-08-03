@@ -22,6 +22,29 @@ public class UserInfo extends HttpServlet {
     public Object obj;
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String accessToken = request.getParameter("accessToken");
+
+        String url = "https://localhost:9443/oauth2/userinfo";
+
+        URL object  = new URL(url);
+        HttpURLConnection con = (HttpURLConnection) object.openConnection();
+        // optional default is GET
+        con.setRequestMethod("POST");
+        //add request header
+        con.setRequestProperty( "Authorization","Bearer "+accessToken);
+
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuffer re = new StringBuffer();
+        while ((inputLine = in.readLine()) != null) {
+            re.append(inputLine);
+        }
+        in.close();
+
+        //Read JSON response and print
+        org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
+        response.setContentType("text/html");
+
         PrintWriter out = response.getWriter();
         String title = "User Details";
         String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
