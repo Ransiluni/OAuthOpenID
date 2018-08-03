@@ -85,14 +85,19 @@ public class JSON extends HttpServlet {
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
                                     "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" readonly/>\n" +
+                                    "<script type=\"text/javascript\">\n" +
+                                    "var idToken = \""+myResponse.getString("access_token")+"\";\n" +
+                                    "var accessToken = atob(idToken.split(\".\")[1]);\n" +
+                                    "document.getElementById(\"accessToken\").value = accessToken;\n" +
+                                    "</script>" +
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>Refresh Token :</label></td>\n" +
-                                    "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("refresh_token") + " style=\"width:450px\" readonly/>\n" +
+                                    "<td><input id=\"refreshToken\" name=\"refreshToken\" value=" + myResponse.getString("refresh_token") + " style=\"width:450px\" readonly/>\n" +
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>Scope :</label></td>\n" +
-                                    "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("scope") + " style=\"width:450px\" readonly/>\n" +
+                                    "<td><input id=\"scope\" name=\"scope\" value=" + myResponse.getString("scope") + " style=\"width:450px\" readonly/>\n" +
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>ID Token :</label></td>\n" +
