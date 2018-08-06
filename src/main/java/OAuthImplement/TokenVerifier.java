@@ -12,6 +12,10 @@ import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.interfaces.RSAPublicKey;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.SignedJWT;
@@ -32,17 +36,28 @@ public class TokenVerifier extends HttpServlet {
             Certificate cert = keystore.getCertificate(alias);
             publicKey = (RSAPublicKey) cert.getPublicKey();
 
-            String JWTString = token;
-            SignedJWT signedJWT = SignedJWT.parse(JWTString);
+            Algorithm alg = Algorithm.RSA256(publicKey, null);
+            JWTVerifier verifier = JWT.require(alg)
+                    .withIssuer("https://localhost:9443/oauth2/token")
+                    .withSubject("admin")
+                    .withAudience("onKvXou89QW4m3aJRVLhtw4O8n4a")
+                    .build();
 
-            JWSVerifier verifier = new RSASSAVerifier(publicKey);
+            DecodedJWT jwt = verifier.verify(token);
 
-            if(signedJWT.verify(verifier)){
-                System.out.println("VALID");
-            }
-            else{
-                System.out.println("INVALID");
-            }
+
+//            Use this if nimbusds is used.
+//            String JWTString = token;
+//            SignedJWT signedJWT = SignedJWT.parse(JWTString);
+//
+//            JWSVerifier verifier = new RSASSAVerifier(publicKey);
+//
+//            if(signedJWT.verify(verifier)){
+//                System.out.println("VALID");
+//            }
+//            else{
+//                System.out.println("INVALID");
+//            }
         }catch (Exception e){
             System.out.println("Error: " + e);
         }
