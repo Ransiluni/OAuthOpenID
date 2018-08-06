@@ -116,6 +116,7 @@ public class JSON extends HttpServlet {
                                 "<tr>" +
                                     "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\"/></td>" +
                                     "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"User Info\" formaction=\"UserInfo\"/></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenVerify\" value=\"Verify Token\" formaction=\"TokenVerifier\"/></td>" +
                                 "</tr>" +
                                 "<tr>" +
                                     "<td>" +

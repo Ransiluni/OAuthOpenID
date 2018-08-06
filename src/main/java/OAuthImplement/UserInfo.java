@@ -44,16 +44,16 @@ public class UserInfo extends HttpServlet {
         out.println(docType +
                 "<html>\n" +
                 "<head>" +
-                "<title>" + title + "</title>\n" +
-                "<style>\n" +
-                "tr:nth-child(even) {\n" +
-                "background-color: #dddddd;\n" +
-                "}\n" +
-                "</style>\n" +
+                    "<title>" + title + "</title>\n" +
+                    "<style>\n" +
+                        "tr:nth-child(even) {\n" +
+                        "background-color: #dddddd;\n" +
+                        "}\n" +
+                    "</style>\n" +
                 "</head>\n" +
                 "<body>\n" +
-                "<h3>User Details</h3>" +
-                "<table style=\"width:800px;margin-left: auto;margin-right: auto;\" class=\"striped\">"
+                    "<h3>User Details</h3>" +
+                    "<table style=\"width:800px;margin-left: auto;margin-right: auto;\" class=\"striped\">"
         );
 
         while (iter.hasNext()){
