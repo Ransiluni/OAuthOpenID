@@ -61,6 +61,7 @@
         <servlet-name>JSON</servlet-name>
         <url-pattern>/JSON</url-pattern>
     </servlet-mapping>
+
     <servlet>
         <servlet-name>UserInfo</servlet-name>
         <servlet-class>OAuthImplement.UserInfo</servlet-class>
@@ -82,6 +83,15 @@
         <url-pattern>/Introspection</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>TokenVerifier</servlet-name>
+        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
 
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TokenVerifier</servlet-name>
+        <url-pattern>/TokenVerifier</url-pattern>
+    </servlet-mapping>
 
 </web-app>

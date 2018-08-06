@@ -84,7 +84,7 @@ public class JSON extends HttpServlet {
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
-                                    "<td><input id=\"accessToken1\" name=\"accessToken1\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" />\n" +
+                                    "<td><input id=\"accessToken1\" name=\"accessToken1\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" readonly/>\n" +
                                     "<td><input id=\"accessToken\" name=\"accessToken\"  style=\"width:450px\" hidden/>\n" +
                                     "<script type=\"text/javascript\">\n" +
                                     "var idToken = \""+myResponse.getString("access_token")+"\";\n" +
@@ -112,10 +112,10 @@ public class JSON extends HttpServlet {
                                     "<td><label>Expires In :</label></td>\n" +
                                     "<td><input id=\"expiresIn\" name=\"expiresIn\" value=" + myResponse.getInt("expires_in") + " readonly />\n" +
                                 "</tr>\n" +
+                                "<tr>\n" +
                                 "<tr>" +
                                     "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\"/></td>" +
-                                    "<td colspan=\"2\"><input type=\"submit\" name=\"userInfo\" value=\"User Info\" formaction=\"UserInfo\"/></td>" +
-                                    "<td colspan=\"2\"><input type=\"submit\" name=\"IntrospectionInfo\" value=\"Introspection Validate\" formaction=\"Introspection\"/></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"User Info\" formaction=\"UserInfo\"/></td>" +
                                 "</tr>" +
                                 "<tr>" +
                                     "<td>" +
