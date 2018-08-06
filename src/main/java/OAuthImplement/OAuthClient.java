@@ -236,6 +236,7 @@ public class OAuthClient extends HttpServlet {
                                 "<tr>\n" +
                                     "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\" /></td>" +
                                     "<td colspan=\"2\"><input type=\"submit\" id=\"uinfo\" name=\"userInfo\" value=\"User Info\" formaction=\"UserInfo\" /></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"introspect\" value=\"Introspect\" formaction=\"Introspection\"/></td>" +
                                     "<script>\n" +
                                         "var at = getAccessToken();\n" +
                                         "if(at == \"\"){\n" +
