@@ -40,17 +40,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>TokenCodeURL</servlet-name>
-        <servlet-class>OAuthImplement.TokenCodeURL</servlet-class>
-
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>TokenCodeURL</servlet-name>
-        <url-pattern>/TokenCodeURL</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>TokenInfo</servlet-name>
         <servlet-class>OAuthImplement.TokenInfo</servlet-class>
 
@@ -81,6 +70,16 @@
     <servlet-mapping>
         <servlet-name>UserInfo</servlet-name>
         <url-pattern>/UserInfo</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>Introspection</servlet-name>
+        <servlet-class>OAuthImplement.Introspection</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Introspection</servlet-name>
+        <url-pattern>/Introspection</url-pattern>
     </servlet-mapping>
 
 
