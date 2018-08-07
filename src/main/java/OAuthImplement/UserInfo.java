@@ -28,7 +28,7 @@ public class UserInfo extends HttpServlet {
         String title = "User Details";
         String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
-        String access_token = request.getParameter("accessToken");
+        String access_token = request.getParameter("accessToken1");
 
 
         JSONParser parser = new JSONParser();

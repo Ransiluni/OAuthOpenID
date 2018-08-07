@@ -21,7 +21,7 @@ public class Introspection extends HttpServlet {
         String title = "User Details";
         String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
-        String access_Token = request.getParameter("accessToken1");
+        String access_Token = request.getParameter("accessToken");
 
         //build url
         QueryBuilder codeBuilder = new QueryBuilder();

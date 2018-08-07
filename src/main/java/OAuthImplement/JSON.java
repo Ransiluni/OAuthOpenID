@@ -84,12 +84,12 @@ public class JSON extends HttpServlet {
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
-                                    "<td><input id=\"accessToken1\" name=\"accessToken1\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" readonly/>\n" +
-                                    "<td><input id=\"accessToken\" name=\"accessToken\"  style=\"width:450px\" hidden/>\n" +
+                                    "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" readonly/>\n" +
+                                    "<td><input id=\"accessToken1\" name=\"accessToken1\"  style=\"width:450px\" hidden/>\n" +
                                     "<script type=\"text/javascript\">\n" +
                                     "var idToken = \""+myResponse.getString("access_token")+"\";\n" +
                                     "var accessToken = atob(idToken.split(\".\")[1]);\n" +
-                                    "document.getElementById(\"accessToken\").value = accessToken;\n" +
+                                    "document.getElementById(\"accessToken1\").value = accessToken;\n" +
                                     "</script>" +
                                 "</tr>\n" +
                                 "<tr>\n" +
@@ -102,7 +102,7 @@ public class JSON extends HttpServlet {
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>ID Token :</label></td>\n" +
-                                    "<td><textarea id=\"idToken\" name=\"idToken\"  style=\"width:450px\" rows=\"20\" readonly >" + myResponse.getString("id_token") + " </textarea>\n" +
+                                    "<td><textarea id=\"idToken\" name=\"idToken\"  style=\"width:450px\" rows=\"20\" >" + myResponse.getString("id_token") + " </textarea>\n" +
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>Token Type :</label></td>\n" +

@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.security.KeyStore;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
 import java.security.interfaces.RSAPublicKey;
 
@@ -20,6 +22,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.nimbusds.jose.JWSVerifier;
 import com.nimbusds.jose.crypto.RSASSAVerifier;
 import com.nimbusds.jwt.SignedJWT;
+import org.apache.commons.codec.binary.Base64;
 
 public class TokenVerifier extends HttpServlet {
 
@@ -31,7 +34,25 @@ public class TokenVerifier extends HttpServlet {
         String audience = (String)session.getAttribute("client_id");
         String grantType = (String)session.getAttribute("grant_type");
         String nonce = (String)session.getAttribute("nonce");
+        String acces = request.getParameter("accessToken");
 
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        md.update(acces.getBytes());
+        byte[] digest = md.digest();
+        //System.out.println("digest"+digest);
+        byte[] leftmost = new byte[16];
+        for ( int i=0; i<16;i++)
+
+        { leftmost[i]=digest[i];
+            //System.out.println("leftmost"+leftmost);
+        }
+        String at_hast = new String(Base64.encodeBase64URLSafe(leftmost));
+        System.out.println(at_hast);
         try {
             RSAPublicKey publicKey = null;
             InputStream file = new FileInputStream("src/main/resources/wso2carbon.jks");
