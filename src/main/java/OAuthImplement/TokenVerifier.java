@@ -28,25 +28,26 @@ public class TokenVerifier extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         String alias = "wso2carbon";
         String token = request.getParameter("idToken");
-        String acces = request.getParameter("accessToken");
+        String access_token = request.getParameter("accessToken");
 
+        //at_hash validate
         MessageDigest md = null;
         try {
             md = MessageDigest.getInstance("SHA-256");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        md.update(acces.getBytes());
+        md.update(access_token.getBytes());
         byte[] digest = md.digest();
         //System.out.println("digest"+digest);
         byte[] leftmost = new byte[16];
         for ( int i=0; i<16;i++)
-
         { leftmost[i]=digest[i];
             //System.out.println("leftmost"+leftmost);
         }
-        String at_hast = new String(Base64.encodeBase64URLSafe(leftmost));
-        System.out.println(at_hast);
+        String at_hash = new String(Base64.encodeBase64URLSafe(leftmost));
+        System.out.println(at_hash);
+
         try {
             RSAPublicKey publicKey = null;
             InputStream file = new FileInputStream("src/main/resources/wso2carbon.jks");
