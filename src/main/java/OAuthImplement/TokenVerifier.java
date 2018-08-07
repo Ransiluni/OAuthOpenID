@@ -31,10 +31,10 @@ public class TokenVerifier extends HttpServlet {
 
         String alias = "wso2carbon";
         String token = request.getParameter("idToken");
-        String access_token = request.getParameter("accessToken");
         String audience = (String)session.getAttribute("client_id");
         String grantType = (String)session.getAttribute("grant_type");
         String nonce = (String)session.getAttribute("nonce");
+        String access = request.getParameter("accessToken");
 
 
         //at_hash validate
@@ -44,7 +44,7 @@ public class TokenVerifier extends HttpServlet {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        md.update(access_token.getBytes());
+        md.update(access.getBytes());
         byte[] digest = md.digest();
         //System.out.println("digest"+digest);
         byte[] leftmost = new byte[16];
@@ -53,9 +53,8 @@ public class TokenVerifier extends HttpServlet {
         { leftmost[i]=digest[i];
             //System.out.println("leftmost"+leftmost);
         }
-        String at_hash = new String(Base64.encodeBase64URLSafe(leftmost));
-        System.out.println(at_hash);
-
+       String at_hash = new String(Base64.encodeBase64URLSafe(leftmost));
+//        System.out.println(at_hash);
         try {
             RSAPublicKey publicKey = null;
             InputStream file = new FileInputStream("src/main/resources/wso2carbon.jks");
@@ -73,6 +72,7 @@ public class TokenVerifier extends HttpServlet {
                         .withIssuer("https://localhost:9443/oauth2/token")
                         .withSubject("admin")
                         .withAudience(audience)
+                        .withClaim("at_hash",at_hash)
                         .build();
 
                 DecodedJWT jwt = verifier.verify(token);
@@ -83,6 +83,7 @@ public class TokenVerifier extends HttpServlet {
                         .withSubject("admin")
                         .withAudience(audience)
                         .withClaim("nonce",nonce)
+                        .withClaim("at_hash",at_hash)
                         .build();
 
                 DecodedJWT jwt = verifier.verify(token);
