@@ -61,17 +61,15 @@ public class Introspection extends HttpServlet {
                     "<head>" +
                         "<title>" + title + "</title>" +
                     "</head>\n" +
-                    "<body>\n"
-
+                    "<body>\n"+
+                    "<form action=\"ProtectedResource\" method=\"get\" >"+
+                            "<input type=\"text\" name=\"active\" id=\"active\" value="+myResponse.getBoolean("active")+" hidden/>"+
+                            "<input type=\"text\" name=\"scope\" id=\"scope\" value="+myResponse.getString("scope")+" hidden/>"+
+                            "<input type=\"submit\" value=\"Introspect pass check validity\">"+
+                    "</body>\n" +
+                    "</html>"
             );
-            if (myResponse.getBoolean("active") == true) {
-                out.println(
-                        "<h2>\" Validated \"</title>" +
-                                "</body>\n" +
-                                "</html>"
-                );
-            }
-        } catch (IOException e) {
+          } catch (IOException e) {
             HttpSession session = request.getSession(false);
             if (session != null) {
                 session.invalidate();
@@ -79,12 +77,13 @@ public class Introspection extends HttpServlet {
             out.println(
                     "<h2>\" Invalid Access token.  \"</title>" +
                      "<form action=\"home\" method=\"get\" >"+
-                        "<input type=\"submit\" value=\"Go back to Home Page\">"+
+                        "<label>"+e+"</label><input type=\"submit\" value=\"Go back to Home Page\">"+
                      "</body>\n" +
                      "</html>"
             );
 
             //response.sendRedirect("home");
+
 
 
         }

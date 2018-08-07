@@ -78,6 +78,7 @@ public class OAuthClient extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         PrintWriter out = response.getWriter();
         String title = "Get Tokens";
+        try{
 
         HttpSession session = request.getSession(false);
         redirect_uri = (String)session.getAttribute("redirect_uri");
@@ -258,6 +259,9 @@ public class OAuthClient extends HttpServlet {
                     "</body>\n" +
                     "</html>"
             );
+        }
+        }catch (Exception e) {
+            response.sendRedirect("home?errorMessage=Inputs Not Valid");
         }
 
 

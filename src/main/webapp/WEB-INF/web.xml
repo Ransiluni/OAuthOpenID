@@ -93,5 +93,35 @@
         <servlet-name>TokenVerifier</servlet-name>
         <url-pattern>/TokenVerifier</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>TokenVerifier</servlet-name>
+        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TokenVerifier</servlet-name>
+        <url-pattern>/TokenVerifier</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ProtectedResource</servlet-name>
+        <servlet-class>OAuthImplement.ProtectedResource</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ProtectedResource</servlet-name>
+        <url-pattern>/ProtectedResource</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>ResourceFilter</filter-name>
+        <filter-class>OAuthImplement.ResourceFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ResourceFilter</filter-name>
+        <url-pattern>/ProtectedResource</url-pattern>
+    </filter-mapping>
 
 </web-app>

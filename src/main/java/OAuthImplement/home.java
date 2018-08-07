@@ -52,6 +52,23 @@ public class home extends HttpServlet {
         String docType =
                 "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
+        if (request.getParameter("errorMessage")!=null) {
+            out.println(docType +
+                    "<html>\n" +
+                    "<head>" +
+                    "<title>" + title + "</title>\n" +
+                    "</head>\n" +
+                    "<body>\n" +
+                    "<div style=\"color: #FF0000;\"><label>|\"Error:\"</label>" + request.getParameter("errorMessage") + "</div>" +
+                    "</body>\n" +
+                    "</html>"
+            );
+        }
+
+
+
+
+
         out.println(docType +
                 "<html>\n" +
                 "<head><title>" + title + "</title></head>\n" +"<body bgcolor = \"#f0f0f0\">\n" +

@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.io.PrintWriter;
 import java.security.KeyStore;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -26,68 +27,81 @@ import org.apache.commons.codec.binary.Base64;
 
 public class TokenVerifier extends HttpServlet {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession(false);
+        response.setContentType("text/html");
+
+        PrintWriter out = response.getWriter();
+        String title = "Verify Details";
+        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
+
 
         String alias = "wso2carbon";
         String token = request.getParameter("idToken");
-        String audience = (String)session.getAttribute("client_id");
-        String grantType = (String)session.getAttribute("grant_type");
-        String nonce = (String)session.getAttribute("nonce");
-        String access = request.getParameter("accessToken");
-
-
-        //at_hash validate
-        MessageDigest md = null;
         try {
-            md = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        md.update(access.getBytes());
-        byte[] digest = md.digest();
-        //System.out.println("digest"+digest);
-        byte[] leftmost = new byte[16];
-        for ( int i=0; i<16;i++)
+            String audience = (String) session.getAttribute("client_id");
+            String grantType = (String) session.getAttribute("grant_type");
+            String nonce = (String) session.getAttribute("nonce");
+            String access = request.getParameter("accessToken");
 
-        { leftmost[i]=digest[i];
-            //System.out.println("leftmost"+leftmost);
-        }
-       String at_hash = new String(Base64.encodeBase64URLSafe(leftmost));
+
+            //at_hash validate
+            MessageDigest md = null;
+            try {
+                md = MessageDigest.getInstance("SHA-256");
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
+            md.update(access.getBytes());
+            byte[] digest = md.digest();
+            //System.out.println("digest"+digest);
+            byte[] leftmost = new byte[16];
+            for (int i = 0; i < 16; i++)
+
+            {
+                leftmost[i] = digest[i];
+                //System.out.println("leftmost"+leftmost);
+            }
+            String at_hash = new String(Base64.encodeBase64URLSafe(leftmost));
 //        System.out.println(at_hash);
-        try {
-            RSAPublicKey publicKey = null;
-            InputStream file = new FileInputStream("src/main/resources/wso2carbon.jks");
+            try {
+                RSAPublicKey publicKey = null;
+                InputStream file = new FileInputStream("src/main/resources/wso2carbon.jks");
 
-            KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
-            keystore.load(file, alias.toCharArray());
+                KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+                keystore.load(file, alias.toCharArray());
 
-            Certificate cert = keystore.getCertificate(alias);
-            publicKey = (RSAPublicKey) cert.getPublicKey();
+                Certificate cert = keystore.getCertificate(alias);
+                publicKey = (RSAPublicKey) cert.getPublicKey();
 
-            Algorithm alg = Algorithm.RSA256(publicKey, null);
+                Algorithm alg = Algorithm.RSA256(publicKey, null);
 
-            if("authorization_code".equals(grantType)){
-                JWTVerifier verifier = JWT.require(alg)
-                        .withIssuer("https://localhost:9443/oauth2/token")
-                        .withSubject("admin")
-                        .withAudience(audience)
-                        .withClaim("at_hash",at_hash)
-                        .build();
+                if ("authorization_code".equals(grantType)) {
+                    JWTVerifier verifier = JWT.require(alg)
+                            .withIssuer("https://localhost:9443/oauth2/token")
+                            .withSubject("admin")
+                            .withAudience(audience)
+                            .withClaim("at_hash", at_hash)
+                            .build();
 
-                DecodedJWT jwt = verifier.verify(token);
-            }
-            if("token".equals(grantType)){
-                JWTVerifier verifier = JWT.require(alg)
-                        .withIssuer("https://localhost:9443/oauth2/token")
-                        .withSubject("admin")
-                        .withAudience(audience)
-                        .withClaim("nonce",nonce)
-                        .withClaim("at_hash",at_hash)
-                        .build();
+                    DecodedJWT jwt = verifier.verify(token);
+                }
+                if ("token".equals(grantType)) {
+                    JWTVerifier verifier = JWT.require(alg)
+                            .withIssuer("https://localhost:9443/oauth2/token")
+                            .withSubject("admin")
+                            .withAudience(audience)
+                            .withClaim("nonce", nonce)
+                            .withClaim("at_hash", at_hash)
+                            .build();
 
-                DecodedJWT jwt = verifier.verify(token);
-            }
+                    DecodedJWT jwt = verifier.verify(token);
+                }
+                out.println(
+                        "<h2>\" Token Verified.  \"</title>" +
+                                "</body>\n" +
+                                "</html>"
+                );
 
 
 //            Use this if nimbusds is used.
@@ -102,11 +116,25 @@ public class TokenVerifier extends HttpServlet {
 //            else{
 //                System.out.println("INVALID");
 //            }
-        }catch (Exception e){
-            System.out.println("Error: " + e);
+            } catch (Exception e) {
+                System.out.println("Error: " + e);
+                if (session != null) {
+                    session.invalidate();
+                }
+                out.println(
+                        "<h2>\" Invalid ID token.  \"</title>" +
+                                "<form action=\"home\" method=\"get\" >" +
+                                "<input type=\"submit\" value=\"Go back to Home Page\">" +
+                                "</body>\n" +
+                                "</html>"
+                );
+            }
+
+
+        } catch (Exception e) {
+            response.sendRedirect("home?errorMessage=ID Token Error");
+
         }
-
-
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
