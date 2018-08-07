@@ -28,7 +28,7 @@ public class TokenVerifier extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
         String alias = "wso2carbon";
         String token = request.getParameter("idToken");
-        String acces = request.getParameter("accessToken1");
+        String acces = request.getParameter("accessToken");
 
         MessageDigest md = null;
         try {
