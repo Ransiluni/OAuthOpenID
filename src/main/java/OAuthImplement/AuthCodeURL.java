@@ -38,6 +38,7 @@ public class AuthCodeURL extends HttpServlet {
             String response_type = request.getParameter("response_type");
             codeBuilder.append("response_type", response_type);
             codeBuilder.append("nonce", "n-0S6_WzA2Mj");
+            session.setAttribute("nonce", "n-0S6_WzA2Mj");
             session.setAttribute("grant_type", "token");
         }
 

@@ -242,7 +242,6 @@ public class OAuthClient extends HttpServlet {
                                 "<tr>\n" +
                                     "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\" /></td>" +
                                     "<td colspan=\"2\"><input type=\"submit\" id=\"uinfo\" name=\"userInfo\" value=\"User Info\" formaction=\"UserInfo\" /></td>" +
-                                    "<td colspan=\"2\"><input type=\"submit\" name=\"introspect\" value=\"Introspect\" formaction=\"Introspection\"/></td>" +
                                     "<script>\n" +
                                         "var at = getAccessToken();\n" +
                                         "if(at == \"\"){\n" +
@@ -250,6 +249,10 @@ public class OAuthClient extends HttpServlet {
                                         "}" +
                                     "</script>\n" +
                                 "</tr>\n" +
+                                "<tr>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"introspect\" value=\"Introspect\" formaction=\"Introspection\"/></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"validate\" value=\"Validate\" formaction=\"TokenVerifier\"/></td>" +
+                                "</tr>" +
                             "</table>\n" +
                         "</form>" +
                     "</body>\n" +

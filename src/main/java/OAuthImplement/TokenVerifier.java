@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,9 +27,15 @@ import org.apache.commons.codec.binary.Base64;
 public class TokenVerifier extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        HttpSession session = request.getSession(false);
+
         String alias = "wso2carbon";
         String token = request.getParameter("idToken");
         String access_token = request.getParameter("accessToken");
+        String audience = (String)session.getAttribute("client_id");
+        String grantType = (String)session.getAttribute("grant_type");
+        String nonce = (String)session.getAttribute("nonce");
+
 
         //at_hash validate
         MessageDigest md = null;
@@ -42,6 +49,7 @@ public class TokenVerifier extends HttpServlet {
         //System.out.println("digest"+digest);
         byte[] leftmost = new byte[16];
         for ( int i=0; i<16;i++)
+
         { leftmost[i]=digest[i];
             //System.out.println("leftmost"+leftmost);
         }
@@ -59,15 +67,26 @@ public class TokenVerifier extends HttpServlet {
             publicKey = (RSAPublicKey) cert.getPublicKey();
 
             Algorithm alg = Algorithm.RSA256(publicKey, null);
-            JWTVerifier verifier = JWT.require(alg)
-                    .withIssuer("https://localhost:9443/oauth2/token")
-                    .withSubject("admin")
-                    .withAudience("onKvXou89QW4m3aJRVLhtw4O8n4a")
-                    .build();
 
-            DecodedJWT jwt = verifier.verify(token);
+            if("authorization_code".equals(grantType)){
+                JWTVerifier verifier = JWT.require(alg)
+                        .withIssuer("https://localhost:9443/oauth2/token")
+                        .withSubject("admin")
+                        .withAudience(audience)
+                        .build();
 
+                DecodedJWT jwt = verifier.verify(token);
+            }
+            if("token".equals(grantType)){
+                JWTVerifier verifier = JWT.require(alg)
+                        .withIssuer("https://localhost:9443/oauth2/token")
+                        .withSubject("admin")
+                        .withAudience(audience)
+                        .withClaim("nonce",nonce)
+                        .build();
 
+                DecodedJWT jwt = verifier.verify(token);
+            }
 
 
 //            Use this if nimbusds is used.
