@@ -201,10 +201,16 @@ public class OAuthClient extends HttpServlet {
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
-                                    "<td><input id=\"accessToken\" name=\"accessToken\" style=\"width:450px\" readonly/>\n" +
+                                    "<td><input id=\"accessToken\" name=\"accessToken\" style=\"width:450px\" readonly/></td>\n" +
                                          "<script type=\"text/javascript\">\n" +
                                             "document.getElementById(\"accessToken\").value = getAccessToken();\n" +
                                          "</script>" +
+                                    "<td><input id=\"accessToken1\" name=\"accessToken1\" style=\"width:450px\" hidden/></td>\n" +
+                                        "<script type=\"text/javascript\">\n" +
+                                            "var idToken =getAccessToken();\n" +
+                                            "var accessToken = atob(idToken.split(\".\")[1]);\n" +
+                                            "document.getElementById(\"accessToken1\").value = accessToken;\n" +
+                                        "</script>" +
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>ID Token :</label></td>\n" +
