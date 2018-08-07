@@ -56,19 +56,29 @@ public class Introspection extends HttpServlet {
             //Read JSON response and print
             org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
 
-            out.println(docType +
-                    "<html>\n" +
-                    "<head>" +
-                        "<title>" + title + "</title>" +
-                    "</head>\n" +
-                    "<body>\n"+
-                    "<form action=\"ProtectedResource\" method=\"get\" >"+
-                            "<input type=\"text\" name=\"active\" id=\"active\" value="+myResponse.getBoolean("active")+" hidden/>"+
-                            "<input type=\"text\" name=\"scope\" id=\"scope\" value="+myResponse.getString("scope")+" hidden/>"+
-                            "<input type=\"submit\" value=\"Introspect pass check validity\">"+
-                    "</body>\n" +
-                    "</html>"
-            );
+//            out.println(docType +
+//                    "<html>\n" +
+//                    "<head>" +
+//                        "<title>" + title + "</title>" +
+//                    "</head>\n" +
+//                    "<body>\n"+
+//                    "<form action=\"ProtectedResource\" method=\"get\" >"+
+//                            "<input type=\"text\" name=\"active\" id=\"active\" value="+myResponse.getBoolean("active")+" hidden/>"+
+//                            "<input type=\"text\" name=\"scope\" id=\"scope\" value="+myResponse.getString("scope")+" hidden/>"+
+//                            "<input type=\"submit\" value=\"Introspect pass check validity\">"+
+//                    "</body>\n" +
+//                    "</html>"
+//            );
+
+            QueryBuilder qb = new QueryBuilder();
+            qb.append("active",String.valueOf(myResponse.getBoolean("active")));
+            qb.append("scope",(String)myResponse.get("scope"));
+
+            String resourceEP = "http://localhost:8080/ProtectedResource";
+            String resURL = qb.returnQuery(resourceEP);
+
+            response.sendRedirect(resURL);
+
           } catch (IOException e) {
             HttpSession session = request.getSession(false);
             if (session != null) {
