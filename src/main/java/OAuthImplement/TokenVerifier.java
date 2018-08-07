@@ -34,7 +34,7 @@ public class TokenVerifier extends HttpServlet {
         String audience = (String)session.getAttribute("client_id");
         String grantType = (String)session.getAttribute("grant_type");
         String nonce = (String)session.getAttribute("nonce");
-        String acces = request.getParameter("accessToken");
+        String access = request.getParameter("accessToken");
 
         MessageDigest md = null;
         try {
@@ -42,7 +42,7 @@ public class TokenVerifier extends HttpServlet {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        md.update(acces.getBytes());
+        md.update(access.getBytes());
         byte[] digest = md.digest();
         //System.out.println("digest"+digest);
         byte[] leftmost = new byte[16];
@@ -51,8 +51,8 @@ public class TokenVerifier extends HttpServlet {
         { leftmost[i]=digest[i];
             //System.out.println("leftmost"+leftmost);
         }
-        String at_hast = new String(Base64.encodeBase64URLSafe(leftmost));
-        System.out.println(at_hast);
+        String at_hash = new String(Base64.encodeBase64URLSafe(leftmost));
+//        System.out.println(at_hash);
         try {
             RSAPublicKey publicKey = null;
             InputStream file = new FileInputStream("src/main/resources/wso2carbon.jks");
@@ -70,6 +70,7 @@ public class TokenVerifier extends HttpServlet {
                         .withIssuer("https://localhost:9443/oauth2/token")
                         .withSubject("admin")
                         .withAudience(audience)
+                        .withClaim("at_hash",at_hash)
                         .build();
 
                 DecodedJWT jwt = verifier.verify(token);
@@ -80,6 +81,7 @@ public class TokenVerifier extends HttpServlet {
                         .withSubject("admin")
                         .withAudience(audience)
                         .withClaim("nonce",nonce)
+                        .withClaim("at_hash",at_hash)
                         .build();
 
                 DecodedJWT jwt = verifier.verify(token);

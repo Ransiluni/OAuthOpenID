@@ -59,7 +59,7 @@ public class Introspection extends HttpServlet {
             out.println(docType +
                     "<html>\n" +
                     "<head>" +
-                    "<title>" + title + "</title>" +
+                        "<title>" + title + "</title>" +
                     "</head>\n" +
                     "<body>\n"
 
@@ -79,7 +79,7 @@ public class Introspection extends HttpServlet {
             out.println(
                     "<h2>\" Invalid Access token.  \"</title>" +
                      "<form action=\"home\" method=\"get\" >"+
-                        "<input type=\"submit\" value=\"go back to home page\">"+
+                        "<input type=\"submit\" value=\"Go back to Home Page\">"+
                      "</body>\n" +
                      "</html>"
             );
