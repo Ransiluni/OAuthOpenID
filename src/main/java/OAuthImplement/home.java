@@ -56,10 +56,10 @@ public class home extends HttpServlet {
             out.println(docType +
                     "<html>\n" +
                     "<head>" +
-                    "<title>" + title + "</title>\n" +
+                        "<title>" + title + "</title>\n" +
                     "</head>\n" +
                     "<body>\n" +
-                    "<div style=\"color: #FF0000;\"><label>|\"Error:\"</label>" + request.getParameter("errorMessage") + "</div>" +
+                        "<div style=\"color: #FF0000;\"><label>|Error:</label>" + request.getParameter("errorMessage") + "|</div>" +
                     "</body>\n" +
                     "</html>"
             );
@@ -88,7 +88,7 @@ public class home extends HttpServlet {
                                 "</td>" +
                             "</tr>\n"+
                             "<tr>" +
-                                "<td>Scope : </td><td colspan=\"4\"><input type=\"text\" name=\"scope\" id=\"scope\" value="+scope+" size=\"50\" readonly></td>" +
+                                "<td>Scope : </td><td colspan=\"4\"><input type=\"text\" name=\"scope\" id=\"scope\" value="+scope+" size=\"50\"></td>" +
                             "</tr>\n"+
                             "<tr>" +
                                 "<td>Client Code : </td><td><input type=\"text\" name=\"clientCode\" id=\"client_id\" placeholder=\"Enter clientCode\"  size=\"50\" ></td>" +

@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 
 public class ResourceFilter implements Filter {
@@ -26,12 +27,14 @@ public class ResourceFilter implements Filter {
         String active = request.getParameter("active");
         String scope = request.getParameter("scope");
 
+        String[] scopes = scope.split(" ");
+
         //PrintWriter out=resp.getWriter();
         System.out.println(active);
         System.out.println(scope);
 
         if(active != null){
-            if (("true".equals(active)) && "openid".equals(scope) ) {
+            if (("true".equals(active)) && Arrays.asList(scopes).contains("read")) {
                 chain.doFilter(request, response);
             }
             else{
@@ -57,7 +60,7 @@ public class ResourceFilter implements Filter {
 
 
     }
-
+//Arrays.asList(scope.split(" ")).contains("openid")
 
 
 
