@@ -28,4 +28,8 @@ public class ProtectedResource extends HttpServlet {
             );
 
     }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+        doGet(request,response);
+    }
 }

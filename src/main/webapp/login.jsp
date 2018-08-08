@@ -2,7 +2,7 @@
 <html>
 <body>
     <h2>Basic Authentication for Resource</h2>
-    <form action="ProtectedResource">
+    <form action="ProtectedResource" method="post">
         <table class="user_pass_table">
             <tr>
                 <td>Username </td><td>: <input type="text" name="username" id="username" value="" size="50"/></td>
@@ -15,6 +15,14 @@
             </tr>
         </table>
      </form>
+     <%
+        if("invalid".equals(request.getParameter("error"))){
+     %>
+     <p><font color="red">Invalid Credentials!</font></p>
+
+     <%
+        }
+     %>
 </body>
 </html>
 

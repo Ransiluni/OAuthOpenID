@@ -5,6 +5,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -18,19 +20,37 @@ public class ResourceFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp,
                          FilterChain chain) throws IOException, ServletException {
 
-        String active = req.getParameter("active");
-        String scope = req.getParameter("scope");
+        HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse)resp;
+
+        String active = request.getParameter("active");
+        String scope = request.getParameter("scope");
 
         //PrintWriter out=resp.getWriter();
         System.out.println(active);
         System.out.println(scope);
 
-        if (("true".equals(active)) && "openid".equals(scope) ) {
-            chain.doFilter(req, resp);
+        if(active != null){
+            if (("true".equals(active)) && "openid".equals(scope) ) {
+                chain.doFilter(request, response);
+            }
+            else{
+                RequestDispatcher rd = req.getRequestDispatcher("home");
+                rd.include(request, response);
+            }
         }
         else{
-            RequestDispatcher rd=req.getRequestDispatcher("home");
-            rd.include(req, resp);
+            if(request.getParameter("username") == null){
+                response.sendRedirect("login.jsp");
+            }
+            else{
+                if("admin".equals(request.getParameter("username")) && "admin".equals(request.getParameter("password"))){
+                    chain.doFilter(request, response);
+                }
+                else{
+                    response.sendRedirect("login.jsp?error=invalid");
+                }
+            }
         }
 
 
