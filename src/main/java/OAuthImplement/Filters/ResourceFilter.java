@@ -21,8 +21,11 @@ import java.util.Arrays;
 public class ResourceFilter implements Filter {
 
 
+    FilterConfig fConfig = null;
 
-    public void init(FilterConfig arg0) throws ServletException {}
+    public void init(FilterConfig config) throws ServletException {
+        fConfig = config;
+    }
 
     public void doFilter(ServletRequest req, ServletResponse resp,
                          FilterChain chain) throws IOException, ServletException {
@@ -102,7 +105,10 @@ public class ResourceFilter implements Filter {
                 response.sendRedirect("login.jsp");
             }
             else{
-                if("admin".equals(request.getParameter("username")) && "admin".equals(request.getParameter("password"))){
+                String username = fConfig.getInitParameter("username");
+                String password = fConfig.getInitParameter("password");
+
+                if(username.equals(request.getParameter("username")) && password.equals(request.getParameter("password"))){
                     chain.doFilter(request, response);
                 }
                 else{
