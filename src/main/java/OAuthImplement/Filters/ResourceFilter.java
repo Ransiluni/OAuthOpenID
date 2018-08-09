@@ -20,8 +20,6 @@ import java.util.Arrays;
 
 public class ResourceFilter implements Filter {
 
-
-
     public void init(FilterConfig arg0) throws ServletException {}
 
     public void doFilter(ServletRequest req, ServletResponse resp,
@@ -36,9 +34,10 @@ public class ResourceFilter implements Filter {
 
         if("token".equals(session.getAttribute("grant_type"))){
             access_Token = request.getParameter("accessToken");
+            System.out.println("hjhgjgj"+access_Token);
         }
 
-        if(access_Token != null){
+        if(access_Token != null && !access_Token.isEmpty()){
             //build url
             QueryBuilder codeBuilder = new QueryBuilder();
             codeBuilder.append("token", access_Token);
@@ -71,6 +70,7 @@ public class ResourceFilter implements Filter {
 
                 String active = String.valueOf(myResponse.getBoolean("active"));
                 String scope = (String)myResponse.get("scope");
+                session.setAttribute("scope",scope );
                 String[] scopes = scope.split(" ");
                 String client = (String)myResponse.get("client_id");
 
@@ -93,7 +93,6 @@ public class ResourceFilter implements Filter {
                 if (session != null) {
                     session.invalidate();
                 }
-
                 response.sendRedirect("home");
             }
         }
@@ -113,10 +112,7 @@ public class ResourceFilter implements Filter {
 
     }
 //Arrays.asList(scope.split(" ")).contains("openid")
-
-
-
-
+    
     public void destroy() {}
 
 

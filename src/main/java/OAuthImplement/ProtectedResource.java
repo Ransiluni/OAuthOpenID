@@ -4,42 +4,58 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
 public class ProtectedResource extends HttpServlet {
-
+    String scope;
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         PrintWriter out=response.getWriter();
         String title = "Introspection Result";
         String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
-//        String[] scopes = request.getParameter("scope").split(" ");
+        HttpSession session = request.getSession(false);
+        scope = (String)session.getAttribute("scope");
+        System.out.println(scope);
+
+        try {
+            String[] scopes = scope.split(" ");
 
 
-        out.println(
+            out.println(
                     "<html>\n" +
                             "<head>" +
-                                "<title>" + title + "</title>" +
+                            "<title>" + title + "</title>" +
                             "</head>\n" +
-                            "<body>\n"+
-                                "<h2> HELLO WORLD! OAUTH DONE!! </title>\n"
+                            "<body>\n" +
+                            "<h2> HELLO WORLD! OAUTH DONE!! </title>\n"
             );
 
-//        if(Arrays.asList(scopes).contains("write")){
-//            out.println(
-//                    "<input name=\"write\" />\n" +
-//                    "<input type=\"button\" value=\"Submit\">"
-//
-//            );
-//        }
+        if(Arrays.asList(scopes).contains("write")){
+            out.println(
+                    "<input name=\"write\" />\n" +
+                    "<input type=\"button\" value=\"Submit\">"
 
-        out.println(
-                "</body>\n" +
-                        "</html>"
-        );
+            );
+        }
+
+            out.println(
+                    "</body>\n" +
+                            "</html>"
+            );
+        }catch(NullPointerException e){
+            out.println(
+                    "<html>\n" +
+                            "<head>" +
+                            "<title>" + title + "</title>" +
+                            "</head>\n" +
+                            "<body>\n" +
+                            "<h2> HELLO WORLD! Using Basic Authentication!! </title>\n"
+            );
+        }
 
     }
 
