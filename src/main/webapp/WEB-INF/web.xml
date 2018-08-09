@@ -118,6 +118,14 @@
     <filter>
         <filter-name>ResourceFilter</filter-name>
         <filter-class>OAuthImplement.Filters.ResourceFilter</filter-class>
+        <init-param>
+            <param-name>username</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+        <init-param>
+            <param-name>password</param-name>
+            <param-value>admin</param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>ResourceFilter</filter-name>

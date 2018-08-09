@@ -20,7 +20,12 @@ import java.util.Arrays;
 
 public class ResourceFilter implements Filter {
 
-    public void init(FilterConfig arg0) throws ServletException {}
+
+    FilterConfig fConfig = null;
+
+    public void init(FilterConfig config) throws ServletException {
+        fConfig = config;
+    }
 
     public void doFilter(ServletRequest req, ServletResponse resp,
                          FilterChain chain) throws IOException, ServletException {
@@ -34,7 +39,6 @@ public class ResourceFilter implements Filter {
 
         if("token".equals(session.getAttribute("grant_type"))){
             access_Token = request.getParameter("accessToken");
-            System.out.println("hjhgjgj"+access_Token);
         }
 
         if(access_Token != null && !access_Token.isEmpty()){
@@ -93,6 +97,7 @@ public class ResourceFilter implements Filter {
                 if (session != null) {
                     session.invalidate();
                 }
+
                 response.sendRedirect("home");
             }
         }
@@ -101,7 +106,10 @@ public class ResourceFilter implements Filter {
                 response.sendRedirect("login.jsp");
             }
             else{
-                if("admin".equals(request.getParameter("username")) && "admin".equals(request.getParameter("password"))){
+                String username = fConfig.getInitParameter("username");
+                String password = fConfig.getInitParameter("password");
+
+                if(username.equals(request.getParameter("username")) && password.equals(request.getParameter("password"))){
                     chain.doFilter(request, response);
                 }
                 else{
