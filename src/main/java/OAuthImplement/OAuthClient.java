@@ -129,6 +129,7 @@ public class OAuthClient extends HttpServlet {
         }
 
         if("token".equals(grant_type)){
+
             String docType =
                     "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
@@ -251,7 +252,7 @@ public class OAuthClient extends HttpServlet {
                                     "</script>\n" +
                                 "</tr>\n" +
                                 "<tr>" +
-                                    "<td colspan=\"2\"><input type=\"submit\" name=\"introspect\" value=\"Introspect\" formaction=\"Introspection\"/></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"introspect\" value=\"Access Resource\" formaction=\"ProtectedResource\"/></td>" +
                                     "<td colspan=\"2\"><input type=\"submit\" name=\"validate\" value=\"Validate\" formaction=\"TokenVerifier\"/></td>" +
                                 "</tr>" +
                             "</table>\n" +
@@ -261,7 +262,7 @@ public class OAuthClient extends HttpServlet {
             );
         }
         }catch (Exception e) {
-            response.sendRedirect("home?errorMessage=Inputs Not Valid");
+            response.sendRedirect("home?errorMessage=InputsNotValid");
         }
 
 

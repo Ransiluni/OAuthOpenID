@@ -16,7 +16,7 @@ public class ProtectedResource extends HttpServlet {
         String title = "Introspection Result";
         String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
-        String[] scopes = request.getParameter("scope").split(" ");
+//        String[] scopes = request.getParameter("scope").split(" ");
 
 
         out.println(
@@ -28,13 +28,13 @@ public class ProtectedResource extends HttpServlet {
                                 "<h2> HELLO WORLD! OAUTH DONE!! </title>\n"
             );
 
-        if(Arrays.asList(scopes).contains("write")){
-            out.println(
-                    "<input name=\"write\" />\n" +
-                    "<input type=\"button\" value=\"Submit\">"
-
-            );
-        }
+//        if(Arrays.asList(scopes).contains("write")){
+//            out.println(
+//                    "<input name=\"write\" />\n" +
+//                    "<input type=\"button\" value=\"Submit\">"
+//
+//            );
+//        }
 
         out.println(
                 "</body>\n" +
