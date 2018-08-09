@@ -31,9 +31,14 @@ public class ResourceFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)resp;
 
         HttpSession session = request.getSession(false);
-        String access_Token = (String)session.getAttribute("access_token");
+        String access_Token;
+        access_Token = (String)session.getAttribute("access_token");
 
-        if(access_Token != null || access_Token != null){
+        if("token".equals(session.getAttribute("grant_type"))){
+            access_Token = request.getParameter("accessToken");
+        }
+
+        if(access_Token != null){
             //build url
             QueryBuilder codeBuilder = new QueryBuilder();
             codeBuilder.append("token", access_Token);

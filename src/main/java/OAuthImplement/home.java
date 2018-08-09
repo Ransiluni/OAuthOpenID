@@ -88,7 +88,11 @@ public class home extends HttpServlet {
                                 "</td>" +
                             "</tr>\n"+
                             "<tr>" +
-                                "<td>Scope : </td><td colspan=\"4\"><input type=\"text\" name=\"scope\" id=\"scope\" value="+scope+" size=\"50\"></td>" +
+//                                "<td>Scope : </td><td colspan=\"4\"><input type=\"text\" name=\"scope\" id=\"scope\" value="+scope+" size=\"50\"></td>" +
+                                "<td>Scope : </td><td><select id=\"scope\" name=\"scope\">\n" +
+                                    "<option value=\"" + "openid read" + "\" selected=\"selected\">Read</option>" +
+                                    "<option value=\"" + "openid read write" + "\">Read & Write</option></select>" +
+                                "</td>" +
                             "</tr>\n"+
                             "<tr>" +
                                 "<td>Client Code : </td><td><input type=\"text\" name=\"clientCode\" id=\"client_id\" placeholder=\"Enter clientCode\"  size=\"50\" ></td>" +
