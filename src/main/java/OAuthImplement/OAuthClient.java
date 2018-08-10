@@ -16,10 +16,8 @@ public class OAuthClient extends HttpServlet {
     String redirect_uri;
     String grant_type;
     String client_id;
+    String client_secret;
 
-    static String userName;
-    static String password;
-    static String serverUrl;
 
 
     @Override
@@ -64,10 +62,6 @@ public class OAuthClient extends HttpServlet {
             SSLContext.setDefault(sc);
             HttpsURLConnection.setDefaultHostnameVerifier(hv);
 
-            // Load init parameters.
-            userName = config.getInitParameter("userName");
-            password = config.getInitParameter("password");
-            serverUrl = config.getInitParameter("serverUrl");
 
         } catch (Exception e) {
             throw new ServletException(e);
@@ -203,7 +197,7 @@ public class OAuthClient extends HttpServlet {
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
-                                    "<td><input id=\"accessToken\" name=\"accessToken\" style=\"width:450px\" readonly/></td>\n" +
+                                    "<td><input id=\"accessToken\" name=\"accessToken\" style=\"width:450px\" /></td>\n" +
                                          "<script type=\"text/javascript\">\n" +
                                             "document.getElementById(\"accessToken\").value = getAccessToken();\n" +
                                          "</script>" +

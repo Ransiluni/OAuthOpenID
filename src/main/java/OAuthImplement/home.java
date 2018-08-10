@@ -59,7 +59,7 @@ public class home extends HttpServlet {
                         "<title>" + title + "</title>\n" +
                     "</head>\n" +
                     "<body>\n" +
-                        "<div style=\"color: #FF0000;\"><label>|Error:</label>" + request.getParameter("errorMessage") + "|</div>" +
+                        "<div style=\"color: #FF0000;\"><label>Error:</label>" + request.getParameter("errorMessage") + "</div>" +
                     "</body>\n" +
                     "</html>"
             );

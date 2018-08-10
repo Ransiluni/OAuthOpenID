@@ -22,6 +22,9 @@ public class ResourceFilter implements Filter {
 
 
     FilterConfig fConfig = null;
+    String client_id;
+    String refreshToken;
+    String client_secret;
 
     public void init(FilterConfig config) throws ServletException {
         fConfig = config;
@@ -35,7 +38,9 @@ public class ResourceFilter implements Filter {
 
         HttpSession session = request.getSession(false);
         String access_Token;
-        access_Token = (String)session.getAttribute("access_token");
+        //access_Token = (String)session.getAttribute("access_token");
+        access_Token = request.getParameter("accessToken");
+        session.setAttribute("refresh_token",request.getParameter("refreshToken"));
 
         if("token".equals(session.getAttribute("grant_type"))){
             access_Token = request.getParameter("accessToken");
@@ -94,11 +99,17 @@ public class ResourceFilter implements Filter {
 
             }
             catch (IOException e){
-                if (session != null) {
-                    session.invalidate();
+//                if (session != null) {
+//                    session.invalidate();
+//                }
+//
+                if(!((session.getAttribute("refresh_token"))==null)) {
+                    session.setAttribute("grant_type", "refresh_token");
+                    response.sendRedirect("JSON");
+                }else{
+                    response.sendRedirect("home?errorMessage=Access Token Invalid");
                 }
 
-                response.sendRedirect("home");
             }
         }
         else{
