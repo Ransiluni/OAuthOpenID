@@ -115,6 +115,17 @@
         <url-pattern>/ProtectedResource</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AccessResource</servlet-name>
+        <servlet-class>OAuthImplement.AccessResource</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AccessResource</servlet-name>
+        <url-pattern>/AccessResource</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>ResourceFilter</filter-name>
         <filter-class>OAuthImplement.Filters.ResourceFilter</filter-class>
