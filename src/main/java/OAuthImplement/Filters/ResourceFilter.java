@@ -38,7 +38,7 @@ public class ResourceFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)resp;
 
         String authString = (String)request.getAttribute("Authorization");
-        if(authString != null && !(authString.isEmpty())){
+        if(authString != null && !authString.isEmpty()){
             String[] params = authString.split(" ");
 
             HttpSession session = request.getSession(false);
@@ -137,7 +137,6 @@ public class ResourceFilter implements Filter {
                     response.setStatus(401);
                 }
             }
-
         }
         else{
             response.setContentType("application/json");
