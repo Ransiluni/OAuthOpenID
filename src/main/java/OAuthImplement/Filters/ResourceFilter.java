@@ -1,7 +1,6 @@
 package OAuthImplement.Filters;
 
 import OAuthImplement.QueryBuilder;
-import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
@@ -85,16 +84,12 @@ public class ResourceFilter implements Filter {
 
                 String client_id = (String)session.getAttribute("client_id");
 
-                if("true".equals(active) && Arrays.asList(scopes).contains("read")){
-                    if(client.equals(client_id)){
-                        chain.doFilter(request,response);
-                    }
-                    else{
-                        response.sendRedirect("home?error=InvalidClientError");
-                    }
+                if("true".equals(active) && Arrays.asList(scopes).contains("reade")){
+                    chain.doFilter(request,response);
                 }
                 else{
-                    response.sendRedirect("home?error=InsufficientScopeError");
+                    response.setContentType("application/json");
+                    response.setStatus(401);
                 }
 
             }

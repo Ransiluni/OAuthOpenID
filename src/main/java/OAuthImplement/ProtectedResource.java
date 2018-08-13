@@ -1,5 +1,7 @@
 package OAuthImplement;
 
+import org.json.simple.JSONObject;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,49 +15,56 @@ public class ProtectedResource extends HttpServlet {
     String scope;
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        JSONObject result = new JSONObject();
+        result.put("message","Hello World!");
+
+        response.setContentType("application/json");
         PrintWriter out=response.getWriter();
-        String title = "Introspection Result";
-        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
-        HttpSession session = request.getSession(false);
-        scope = (String)session.getAttribute("scope");
-        System.out.println(scope);
+        out.print(result);
+        out.flush();
+//        String title = "Introspection Result";
+//        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
-        try {
-            String[] scopes = scope.split(" ");
+//        HttpSession session = request.getSession(false);
+//        scope = (String)session.getAttribute("scope");
+//        System.out.println(scope);
 
-
-            out.println(
-                    "<html>\n" +
-                            "<head>" +
-                            "<title>" + title + "</title>" +
-                            "</head>\n" +
-                            "<body>\n" +
-                            "<h2> HELLO WORLD! OAUTH DONE!! </title>\n"
-            );
-
-        if(Arrays.asList(scopes).contains("write")){
-            out.println(
-                    "<input name=\"write\" />\n" +
-                    "<input type=\"button\" value=\"Submit\">"
-
-            );
-        }
-
-            out.println(
-                    "</body>\n" +
-                            "</html>"
-            );
-        }catch(NullPointerException e){
-            out.println(
-                    "<html>\n" +
-                            "<head>" +
-                            "<title>" + title + "</title>" +
-                            "</head>\n" +
-                            "<body>\n" +
-                            "<h2> HELLO WORLD! Using Basic Authentication!! </title>\n"
-            );
-        }
+//        try {
+//            String[] scopes = scope.split(" ");
+//
+//
+//            out.println(
+//                    "<html>\n" +
+//                            "<head>" +
+//                            "<title>" + title + "</title>" +
+//                            "</head>\n" +
+//                            "<body>\n" +
+//                            "<h2> HELLO WORLD! OAUTH DONE!! </title>\n"
+//            );
+//
+//        if(Arrays.asList(scopes).contains("write")){
+//            out.println(
+//                    "<input name=\"write\" />\n" +
+//                    "<input type=\"button\" value=\"Submit\">"
+//
+//            );
+//        }
+//
+//            out.println(
+//                    "</body>\n" +
+//                            "</html>"
+//            );
+//        }catch(NullPointerException e){
+//            out.println(
+//                    "<html>\n" +
+//                            "<head>" +
+//                            "<title>" + title + "</title>" +
+//                            "</head>\n" +
+//                            "<body>\n" +
+//                            "<h2> HELLO WORLD! Using Basic Authentication!! </title>\n"
+//            );
+//        }
 
     }
 
