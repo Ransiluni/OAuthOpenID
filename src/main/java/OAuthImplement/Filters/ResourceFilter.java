@@ -139,6 +139,7 @@ public class ResourceFilter implements Filter {
                 String password = fConfig.getInitParameter("password");
 
                 if(username.equals(values[0]) && password.equals(values[1])){
+                    session.setAttribute("method","basic");
                     chain.doFilter(request, response);
                 }
                 else{

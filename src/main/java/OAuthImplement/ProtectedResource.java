@@ -12,11 +12,25 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 
 public class ProtectedResource extends HttpServlet {
-    String scope;
+    String scope,method;
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        HttpSession session = request.getSession(false);
+        method = (String)session.getAttribute("method");
 
         JSONObject result = new JSONObject();
         result.put("message","Hello World!");
+
+        if(!"basic".equals(method)){
+            scope = (String)session.getAttribute("scope");
+            String[] scopes = scope.split(" ");
+            if(Arrays.asList(scopes).contains("write")){
+                result.put("privileges","read write");
+            }
+            else{
+                result.put("privileges","read");
+            }
+        }
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -26,8 +40,7 @@ public class ProtectedResource extends HttpServlet {
 //        String title = "Introspection Result";
 //        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
-//        HttpSession session = request.getSession(false);
-//        scope = (String)session.getAttribute("scope");
+
 //        System.out.println(scope);
 
 //        try {
