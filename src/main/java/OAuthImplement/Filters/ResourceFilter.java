@@ -14,7 +14,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Base64;
 
 
 public class ResourceFilter implements Filter {
@@ -35,7 +37,8 @@ public class ResourceFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse)resp;
 
-        String authString = request.getHeader("Authorization");
+        String authString = (String)request.getAttribute("Authorization");
+        System.out.println(authString);
         String[] params = authString.split(" ");
 
         HttpSession session = request.getSession(false);
@@ -50,6 +53,7 @@ public class ResourceFilter implements Filter {
 
         if("Bearer".equals(params[0])){
             String access_Token = params[1];
+            System.out.println(access_Token);
             //build url
             QueryBuilder codeBuilder = new QueryBuilder();
             codeBuilder.append("token", access_Token);
@@ -87,8 +91,8 @@ public class ResourceFilter implements Filter {
                 String client = (String)myResponse.get("client_id");
 
                 String client_id = (String)session.getAttribute("client_id");
-
-                if("true".equals(active) && Arrays.asList(scopes).contains("reade")){
+                System.out.println("jikhadhdhohdo");
+                if("true".equals(active) && Arrays.asList(scopes).contains("read")){
                     chain.doFilter(request,response);
                 }
                 else{
@@ -112,14 +116,21 @@ public class ResourceFilter implements Filter {
             }
         }
         else{
+            String base64Credentials = authString.substring("Basic".length()).trim();
+            String credentials = new String(Base64.getDecoder().decode(base64Credentials),
+                Charset.forName("UTF-8"));
+            // credentials = username:password
+            System.out.println(credentials);
+            final String[] values = credentials.split(":",2);
             String credString = params[1];
             String[] creds = credString.split(":");
+            System.out.println(values[0]+" "+values[1]);
 
 
             String username = fConfig.getInitParameter("username");
             String password = fConfig.getInitParameter("password");
 
-            if(username.equals(creds[0]) && password.equals(creds[1])){
+            if(username.equals(values[0]) && password.equals(values[1])){
                 chain.doFilter(request, response);
             }
             else{
