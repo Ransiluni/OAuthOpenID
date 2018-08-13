@@ -38,9 +38,10 @@ public class ResourceFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)resp;
 
         String authString = (String)request.getAttribute("Authorization");
-        String[] params = authString.split(" ");
+        if(authString != null && !(authString.isEmpty())){
+            String[] params = authString.split(" ");
 
-        HttpSession session = request.getSession(false);
+            HttpSession session = request.getSession(false);
 //        String access_Token;
 //        //access_Token = (String)session.getAttribute("access_token");
 //        access_Token = request.getParameter("accessToken");
@@ -50,56 +51,56 @@ public class ResourceFilter implements Filter {
 //            access_Token = request.getParameter("accessToken");
 //        }
 
-        if("Bearer".equals(params[0])){
-            String access_Token = params[1];
-            //build url
-            QueryBuilder codeBuilder = new QueryBuilder();
-            codeBuilder.append("token", access_Token);
+            if("Bearer".equals(params[0])){
+                String access_Token = params[1];
+                //build url
+                QueryBuilder codeBuilder = new QueryBuilder();
+                codeBuilder.append("token", access_Token);
 
-            String EndPoint = " https://localhost:9443/oauth2/introspect";
-            String url = codeBuilder.returnQuery(EndPoint);
+                String EndPoint = " https://localhost:9443/oauth2/introspect";
+                String url = codeBuilder.returnQuery(EndPoint);
 
 
-            URL object = new URL(url);
-            HttpURLConnection con = (HttpURLConnection) object.openConnection();
+                URL object = new URL(url);
+                HttpURLConnection con = (HttpURLConnection) object.openConnection();
 
-            con.setRequestMethod("POST");
+                con.setRequestMethod("POST");
 
-            //add request header
-            con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-            con.setRequestProperty("Authorization", "Bearer " + access_Token);
+                //add request header
+                con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+                con.setRequestProperty("Authorization", "Bearer " + access_Token);
 
-            try{
-                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                try{
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 
-                String inputLine;
-                StringBuffer re = new StringBuffer();
-                while ((inputLine = in.readLine()) != null) {
-                    re.append(inputLine);
+                    String inputLine;
+                    StringBuffer re = new StringBuffer();
+                    while ((inputLine = in.readLine()) != null) {
+                        re.append(inputLine);
+                    }
+                    in.close();
+
+                    //Read JSON response
+                    org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
+
+                    String active = String.valueOf(myResponse.getBoolean("active"));
+                    String scope = (String)myResponse.get("scope");
+                    session.setAttribute("scope",scope );
+                    String[] scopes = scope.split(" ");
+                    String client = (String)myResponse.get("client_id");
+
+                    String client_id = (String)session.getAttribute("client_id");
+
+                    if("true".equals(active) && Arrays.asList(scopes).contains("read")){
+                        chain.doFilter(request,response);
+                    }
+                    else{
+                        response.setContentType("application/json");
+                        response.setStatus(401);
+                    }
+
                 }
-                in.close();
-
-                //Read JSON response
-                org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
-
-                String active = String.valueOf(myResponse.getBoolean("active"));
-                String scope = (String)myResponse.get("scope");
-                session.setAttribute("scope",scope );
-                String[] scopes = scope.split(" ");
-                String client = (String)myResponse.get("client_id");
-
-                String client_id = (String)session.getAttribute("client_id");
-
-                if("true".equals(active) && Arrays.asList(scopes).contains("read")){
-                    chain.doFilter(request,response);
-                }
-                else{
-                    response.setContentType("application/json");
-                    response.setStatus(401);
-                }
-
-            }
-            catch (IOException e){
+                catch (IOException e){
 //                if (session != null) {
 //                    session.invalidate();
 //                }
@@ -111,29 +112,36 @@ public class ResourceFilter implements Filter {
 //                    response.sendRedirect("home?errorMessage=Access Token Invalid");
 //                }
 
-            }
-        }
-        else{
-            String base64Credentials = authString.substring("Basic".length()).trim();
-            String credentials = new String(Base64.getDecoder().decode(base64Credentials),
-                Charset.forName("UTF-8"));
-            // credentials = username:password
-            System.out.println(credentials);
-            final String[] values = credentials.split(":",2);
-            String credString = params[1];
-            String[] creds = credString.split(":");
-            System.out.println(values[0]+" "+values[1]);
-
-
-            String username = fConfig.getInitParameter("username");
-            String password = fConfig.getInitParameter("password");
-
-            if(username.equals(values[0]) && password.equals(values[1])){
-                chain.doFilter(request, response);
+                }
             }
             else{
-                response.sendRedirect("login.jsp?error=invalid");
+                String base64Credentials = authString.substring("Basic".length()).trim();
+                String credentials = new String(Base64.getDecoder().decode(base64Credentials),
+                        Charset.forName("UTF-8"));
+                // credentials = username:password
+                System.out.println(credentials);
+                final String[] values = credentials.split(":",2);
+                String credString = params[1];
+                String[] creds = credString.split(":");
+                System.out.println(values[0]+" "+values[1]);
+
+
+                String username = fConfig.getInitParameter("username");
+                String password = fConfig.getInitParameter("password");
+
+                if(username.equals(values[0]) && password.equals(values[1])){
+                    chain.doFilter(request, response);
+                }
+                else{
+                    response.setContentType("application/json");
+                    response.setStatus(401);
+                }
             }
+
+        }
+        else{
+            response.setContentType("application/json");
+            response.setStatus(401);
         }
 
     }
