@@ -29,12 +29,12 @@ public class Introspection extends HttpServlet {
         if(user_name==null){
             access_Token = (String)session.getAttribute("access_token");
             request.setAttribute("Authorization", "Bearer " + access_Token);
-            request.getRequestDispatcher("ProtectedResource").include(request, response);
+            request.getRequestDispatcher("ProtectedResource").forward(request, response);
         }else{
             String encoding = Base64.getEncoder().encodeToString(
                     (user_name+":"+password).getBytes("utf-8"));
             request.setAttribute("Authorization", "Basic " + encoding);
-            request.getRequestDispatcher("ProtectedResource").include(request, response);
+            request.getRequestDispatcher("ProtectedResource").forward(request, response);
         }
 
 
