@@ -35,7 +35,7 @@ public class ResourceFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse)resp;
 
-        String authString = request.getHeader("Authorization");
+        String authString = (String)request.getAttribute("Authorization");
         String[] params = authString.split(" ");
 
         HttpSession session = request.getSession(false);
@@ -88,7 +88,7 @@ public class ResourceFilter implements Filter {
 
                 String client_id = (String)session.getAttribute("client_id");
 
-                if("true".equals(active) && Arrays.asList(scopes).contains("reade")){
+                if("true".equals(active) && Arrays.asList(scopes).contains("read")){
                     chain.doFilter(request,response);
                 }
                 else{

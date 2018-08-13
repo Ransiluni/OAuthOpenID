@@ -19,7 +19,7 @@ public class ProtectedResource extends HttpServlet {
         result.put("message","Hello World!");
 
         response.setContentType("application/json");
-        PrintWriter out=response.getWriter();
+        PrintWriter out = response.getWriter();
 
         out.print(result);
         out.flush();
