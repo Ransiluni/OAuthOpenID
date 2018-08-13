@@ -14,7 +14,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Base64;
 
 
 public class ResourceFilter implements Filter {
@@ -112,14 +114,21 @@ public class ResourceFilter implements Filter {
             }
         }
         else{
+            String base64Credentials = authString.substring("Basic".length()).trim();
+            String credentials = new String(Base64.getDecoder().decode(base64Credentials),
+                Charset.forName("UTF-8"));
+            // credentials = username:password
+            System.out.println(credentials);
+            final String[] values = credentials.split(":",2);
             String credString = params[1];
             String[] creds = credString.split(":");
+            System.out.println(values[0]+" "+values[1]);
 
 
             String username = fConfig.getInitParameter("username");
             String password = fConfig.getInitParameter("password");
 
-            if(username.equals(creds[0]) && password.equals(creds[1])){
+            if(username.equals(values[0]) && password.equals(values[1])){
                 chain.doFilter(request, response);
             }
             else{

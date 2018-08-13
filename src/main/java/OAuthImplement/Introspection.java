@@ -21,12 +21,13 @@ public class Introspection extends HttpServlet {
 
         HttpSession session = request.getSession(false);
 
-        access_Token = (String)session.getAttribute("access_token");
+
         user_name=request.getParameter("username");
         password=request.getParameter("password");
         System.out.println(user_name);
 
         if(user_name==null){
+            access_Token = (String)session.getAttribute("access_token");
             request.setAttribute("Authorization", "Bearer " + access_Token);
             request.getRequestDispatcher("ProtectedResource").forward(request, response);
         }else{
