@@ -63,12 +63,12 @@ public class AccessResource extends HttpServlet {
                                 "<td><input type=\"password\" id=\"password\" name=\"password\" style=\"width:450px\"/></td>" +
                             "</tr>" +
                             "<tr>" +
-                                 "<td><input type=\"submit\" value=\"Access using Basic Authentication\" /></td>" +
+                                 "<td><input type=\"submit\" value=\"Access using Basic Authentication\" formaction=\"Introspection\"/></td>" +
                             "</tr>" +
                         "</table>" +
                     "</form>\n" +
                     "<form id=\"bearerForm\" style=\"display:none\">" +
-                        "<input type=\"submit\" value=\"Access using Token\"/>" +
+                        "<input type=\"submit\" value=\"Access using Token\" formaction=\"Introspection\"/>" +
                     "</form>\n"
 
         );

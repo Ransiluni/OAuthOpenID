@@ -141,6 +141,7 @@
     <filter-mapping>
         <filter-name>ResourceFilter</filter-name>
         <url-pattern>/ProtectedResource</url-pattern>
+        <dispatcher>INCLUDE</dispatcher>
     </filter-mapping>
 
 </web-app>

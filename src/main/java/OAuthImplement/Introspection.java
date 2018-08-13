@@ -11,93 +11,71 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 
 public class Introspection extends HttpServlet {
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
+    String access_Token,user_name,password;
 
-        PrintWriter out = response.getWriter();
-        String title = "User Details";
-        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String access_Token = request.getParameter("accessToken");
+        HttpSession session = request.getSession(false);
 
-        //build url
-        QueryBuilder codeBuilder = new QueryBuilder();
-        codeBuilder.append("token", access_Token);
+        access_Token = (String)session.getAttribute("access_token");
+        user_name=request.getParameter("username");
+        password=request.getParameter("password");
+        System.out.println(user_name);
 
-        String EndPoint = " https://localhost:9443/oauth2/introspect";
-        String url = codeBuilder.returnQuery(EndPoint);
-
-
-        URL object = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) object.openConnection();
-
-        // optional default is GET
-        con.setRequestMethod("POST");
-
-        //add request header
-        con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-        con.setRequestProperty("Authorization", "Bearer " + access_Token);
-        //con.setRequestProperty("Accept", "application/json");
-
-
-        try {
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-
-            String inputLine;
-            StringBuffer re = new StringBuffer();
-            while ((inputLine = in.readLine()) != null) {
-                re.append(inputLine);
-            }
-            in.close();
-
-            //Read JSON response and print
-            org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
-
-//            out.println(docType +
-//                    "<html>\n" +
-//                    "<head>" +
-//                        "<title>" + title + "</title>" +
-//                    "</head>\n" +
-//                    "<body>\n"+
-//                    "<form action=\"ProtectedResource\" method=\"get\" >"+
-//                            "<input type=\"text\" name=\"active\" id=\"active\" value="+myResponse.getBoolean("active")+" hidden/>"+
-//                            "<input type=\"text\" name=\"scope\" id=\"scope\" value="+myResponse.getString("scope")+" hidden/>"+
-//                            "<input type=\"submit\" value=\"Introspect pass check validity\">"+
-//                    "</body>\n" +
-//                    "</html>"
-//            );
-
-            QueryBuilder qb = new QueryBuilder();
-            qb.append("active",String.valueOf(myResponse.getBoolean("active")));
-            qb.append("scope",(String)myResponse.get("scope"));
-
-            String resourceEP = "http://localhost:8080/ProtectedResource";
-            String resURL = qb.returnQuery(resourceEP);
-
-            response.sendRedirect(resURL);
-
-          } catch (IOException e) {
-            HttpSession session = request.getSession(false);
-            if (session != null) {
-                session.invalidate();
-            }
-            out.println(
-                    "<h2>\" Invalid Access token.  \"</title>" +
-                     "<form action=\"home\" method=\"get\" >"+
-                        "<label>"+e+"</label><input type=\"submit\" value=\"Go back to Home Page\">"+
-                     "</body>\n" +
-                     "</html>"
-            );
-
-            //response.sendRedirect("home");
-
-
-
+        if(user_name==null){
+            request.setAttribute("Authorization", "Bearer " + access_Token);
+            request.getRequestDispatcher("ProtectedResource").include(request, response);
+        }else{
+            String encoding = Base64.getEncoder().encodeToString(
+                    (user_name+":"+password).getBytes("utf-8"));
+            request.setAttribute("Authorization", "Basic " + encoding);
+            request.getRequestDispatcher("ProtectedResource").include(request, response);
         }
 
 
+//        String url = "http://localhost:8080/ProtectedResource";
+//        URL obj = new URL(url);
+//
+//        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+//        // optional default is GET
+//        con.setRequestMethod("POST");
+//        //add request header
+//        con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+//        con.setRequestProperty("Authorization", "Bearer " + access_Token);
+//
+//
+//
+////
+//
+//
+////        int responseCode = con.getResponseCode();
+////        System.out.println("\nSending 'GET' request to URL : " + url);
+////        System.out.println("Response Code : " + responseCode);
+//        try
+//
+//        {
+//            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+//            String inputLine;
+//            StringBuffer re = new StringBuffer();
+//            while ((inputLine = in.readLine()) != null) {
+//                re.append(inputLine);
+//            }
+//            in.close();
+//
+//            //Read JSON response and print
+//            //JSONObject myResponse = new JSONObject(re.toString());
+//            System.out.println(re.toString());
+////        System.out.println(myResponse);
+////        if (myResponse != null) {
+////            session.setAttribute("grant_type", "token");
+
+        //response.setContentType("text/html;charset=UTF-8");
+    }
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        doPost(request,response);
     }
 }

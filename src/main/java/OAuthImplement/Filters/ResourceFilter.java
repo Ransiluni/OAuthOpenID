@@ -15,6 +15,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Arrays;
+import java.util.Enumeration;
 
 
 public class ResourceFilter implements Filter {
@@ -34,16 +35,29 @@ public class ResourceFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse)resp;
+        Enumeration<String> headerNames = request.getAttributeNames();
+        if (headerNames != null) {
+            while (headerNames.hasMoreElements()) {
+                System.out.println("Header: " + request.getAttribute(headerNames.nextElement()));
+            }
+        }
+
+        String authorization = (String)request.getAttribute("Authorization");
+        System.out.println("authorization"+authorization);
+
+        String access_Token;
+//        //access_Token = (String)session.getAttribute("access_token");
+        access_Token = authorization.substring("Bearer".length()).trim();
 
         HttpSession session = request.getSession(false);
-        String access_Token;
-        //access_Token = (String)session.getAttribute("access_token");
-        access_Token = request.getParameter("accessToken");
-        session.setAttribute("refresh_token",request.getParameter("refreshToken"));
-
-        if("token".equals(session.getAttribute("grant_type"))){
-            access_Token = request.getParameter("accessToken");
-        }
+//        String access_Token;
+//        //access_Token = (String)session.getAttribute("access_token");
+//        access_Token = request.getParameter("accessToken");
+//        session.setAttribute("refresh_token",request.getParameter("refreshToken"));
+//
+//        if("token".equals(session.getAttribute("grant_type"))){
+//            access_Token = request.getParameter("accessToken");
+//        }
 
         if(access_Token != null && !access_Token.isEmpty()){
             //build url
@@ -84,7 +98,7 @@ public class ResourceFilter implements Filter {
 
                 String client_id = (String)session.getAttribute("client_id");
 
-                if("true".equals(active) && Arrays.asList(scopes).contains("reade")){
+                if("truehjugj".equals(active) && Arrays.asList(scopes).contains("read")){
                     chain.doFilter(request,response);
                 }
                 else{
