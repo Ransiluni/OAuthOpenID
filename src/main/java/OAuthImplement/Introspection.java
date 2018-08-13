@@ -29,6 +29,7 @@ public class Introspection extends HttpServlet {
         if(user_name==null){
             access_Token = (String)session.getAttribute("access_token");
             request.setAttribute("Authorization", "Bearer " + access_Token);
+            request.setAttribute("Client_id", session.getAttribute("client_id"));
             request.getRequestDispatcher("ProtectedResource").forward(request, response);
         }else{
             String encoding = Base64.getEncoder().encodeToString(
@@ -40,43 +41,7 @@ public class Introspection extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
 
-//        String url = "http://localhost:8080/ProtectedResource";
-//        URL obj = new URL(url);
-//
-//        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-//        // optional default is GET
-//        con.setRequestMethod("POST");
-//        //add request header
-//        con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
-//        con.setRequestProperty("Authorization", "Bearer " + access_Token);
-//
-//
-//
-////
-//
-//
-////        int responseCode = con.getResponseCode();
-////        System.out.println("\nSending 'GET' request to URL : " + url);
-////        System.out.println("Response Code : " + responseCode);
-//        try
-//
-//        {
-//            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//            String inputLine;
-//            StringBuffer re = new StringBuffer();
-//            while ((inputLine = in.readLine()) != null) {
-//                re.append(inputLine);
-//            }
-//            in.close();
-//
-//            //Read JSON response and print
-//            //JSONObject myResponse = new JSONObject(re.toString());
-//            System.out.println(re.toString());
-////        System.out.println(myResponse);
-////        if (myResponse != null) {
-////            session.setAttribute("grant_type", "token");
 
-        //response.setContentType("text/html;charset=UTF-8");
     }
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request,response);
