@@ -34,9 +34,11 @@ public class Introspection extends HttpServlet {
             String encoding = Base64.getEncoder().encodeToString(
                     (user_name+":"+password).getBytes("utf-8"));
             request.setAttribute("Authorization", "Basic " + encoding);
-            request.getRequestDispatcher("ProtectedResource").forward(request, response);
+            request.getRequestDispatcher("ProtectedResource").forward(request,response);
         }
 
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
 
 //        String url = "http://localhost:8080/ProtectedResource";
 //        URL obj = new URL(url);

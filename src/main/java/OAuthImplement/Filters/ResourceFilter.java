@@ -38,7 +38,6 @@ public class ResourceFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse)resp;
 
         String authString = (String)request.getAttribute("Authorization");
-        System.out.println(authString);
         String[] params = authString.split(" ");
 
         HttpSession session = request.getSession(false);
@@ -53,7 +52,6 @@ public class ResourceFilter implements Filter {
 
         if("Bearer".equals(params[0])){
             String access_Token = params[1];
-            System.out.println(access_Token);
             //build url
             QueryBuilder codeBuilder = new QueryBuilder();
             codeBuilder.append("token", access_Token);
@@ -91,7 +89,7 @@ public class ResourceFilter implements Filter {
                 String client = (String)myResponse.get("client_id");
 
                 String client_id = (String)session.getAttribute("client_id");
-                System.out.println("jikhadhdhohdo");
+
                 if("true".equals(active) && Arrays.asList(scopes).contains("read")){
                     chain.doFilter(request,response);
                 }
