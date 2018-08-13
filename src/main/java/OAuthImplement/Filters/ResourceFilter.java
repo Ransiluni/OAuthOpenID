@@ -35,17 +35,21 @@ public class ResourceFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse)resp;
 
+        String authString = request.getHeader("Authorization");
+        String[] params = authString.split(" ");
+
         HttpSession session = request.getSession(false);
-        String access_Token;
-        //access_Token = (String)session.getAttribute("access_token");
-        access_Token = request.getParameter("accessToken");
-        session.setAttribute("refresh_token",request.getParameter("refreshToken"));
+//        String access_Token;
+//        //access_Token = (String)session.getAttribute("access_token");
+//        access_Token = request.getParameter("accessToken");
+//        session.setAttribute("refresh_token",request.getParameter("refreshToken"));
+//
+//        if("token".equals(session.getAttribute("grant_type"))){
+//            access_Token = request.getParameter("accessToken");
+//        }
 
-        if("token".equals(session.getAttribute("grant_type"))){
-            access_Token = request.getParameter("accessToken");
-        }
-
-        if(access_Token != null && !access_Token.isEmpty()){
+        if("Bearer".equals(params[0])){
+            String access_Token = params[1];
             //build url
             QueryBuilder codeBuilder = new QueryBuilder();
             codeBuilder.append("token", access_Token);
@@ -98,29 +102,28 @@ public class ResourceFilter implements Filter {
 //                    session.invalidate();
 //                }
 //
-                if(!((session.getAttribute("refresh_token"))==null)) {
-                    session.setAttribute("grant_type", "refresh_token");
-                    response.sendRedirect("JSON");
-                }else{
-                    response.sendRedirect("home?errorMessage=Access Token Invalid");
-                }
+//                if(!((session.getAttribute("refresh_token"))==null)) {
+//                    session.setAttribute("grant_type", "refresh_token");
+//                    response.sendRedirect("JSON");
+//                }else{
+//                    response.sendRedirect("home?errorMessage=Access Token Invalid");
+//                }
 
             }
         }
         else{
-            if(request.getParameter("username") == null){
-                response.sendRedirect("login.jsp");
+            String credString = params[1];
+            String[] creds = credString.split(":");
+
+
+            String username = fConfig.getInitParameter("username");
+            String password = fConfig.getInitParameter("password");
+
+            if(username.equals(creds[0]) && password.equals(creds[1])){
+                chain.doFilter(request, response);
             }
             else{
-                String username = fConfig.getInitParameter("username");
-                String password = fConfig.getInitParameter("password");
-
-                if(username.equals(request.getParameter("username")) && password.equals(request.getParameter("password"))){
-                    chain.doFilter(request, response);
-                }
-                else{
-                    response.sendRedirect("login.jsp?error=invalid");
-                }
+                response.sendRedirect("login.jsp?error=invalid");
             }
         }
 
