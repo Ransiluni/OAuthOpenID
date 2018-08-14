@@ -73,14 +73,14 @@
         <url-pattern>/UserInfo</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>Introspection</servlet-name>
-        <servlet-class>OAuthImplement.Introspection</servlet-class>
+        <servlet-name>RequestProcessor</servlet-name>
+        <servlet-class>OAuthImplement.RequestProcessor</servlet-class>
 
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Introspection</servlet-name>
-        <url-pattern>/Introspection</url-pattern>
+        <servlet-name>RequestProcessor</servlet-name>
+        <url-pattern>/RequestProcessor</url-pattern>
     </servlet-mapping>
 
     <servlet>

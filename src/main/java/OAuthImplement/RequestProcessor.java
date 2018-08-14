@@ -1,5 +1,6 @@
 package OAuthImplement;
 
+import org.json.JSONException;
 import org.json.simple.JSONObject;
 
 import javax.servlet.ServletException;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Set;
 
-public class Introspection extends HttpServlet {
+public class RequestProcessor extends HttpServlet {
 
     String access_Token,user_name,password;
 
@@ -73,6 +74,9 @@ public class Introspection extends HttpServlet {
             catch (IOException e){
                 response.setContentType("application/json");
                 response.setStatus(401);
+            }
+            catch (JSONException e){
+                System.out.println(e);
             }
         }
         else{

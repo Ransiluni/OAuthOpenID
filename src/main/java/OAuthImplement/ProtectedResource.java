@@ -37,7 +37,7 @@ public class ProtectedResource extends HttpServlet {
 
         out.print(result);
         out.flush();
-//        String title = "Introspection Result";
+//        String title = "RequestProcessor Result";
 //        String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
 
 
