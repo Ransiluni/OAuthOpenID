@@ -41,7 +41,7 @@ public class ResourceFilter implements Filter {
         if(authString != null && !authString.isEmpty()){
             String[] params = authString.split(" ");
 
-            HttpSession session = request.getSession(false);
+//            HttpSession session = request.getSession(false);
 //        String access_Token;
 //        //access_Token = (String)session.getAttribute("access_token");
 //        access_Token = request.getParameter("accessToken");
@@ -122,18 +122,16 @@ public class ResourceFilter implements Filter {
                 String credentials = new String(Base64.getDecoder().decode(base64Credentials),
                         Charset.forName("UTF-8"));
                 // credentials = username:password
-                System.out.println(credentials);
                 final String[] values = credentials.split(":",2);
-                String credString = params[1];
-                String[] creds = credString.split(":");
-                System.out.println(values[0]+" "+values[1]);
+//                String credString = params[1];
+//                String[] creds = credString.split(":");
 
 
                 String username = fConfig.getInitParameter("username");
                 String password = fConfig.getInitParameter("password");
 
                 if(username.equals(values[0]) && password.equals(values[1])){
-                    session.setAttribute("method","basic");
+//                    session.setAttribute("method","basic");
                     chain.doFilter(request, response);
                 }
                 else{

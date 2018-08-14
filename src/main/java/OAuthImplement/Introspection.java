@@ -29,13 +29,12 @@ public class Introspection extends HttpServlet {
         user_name=request.getParameter("username");
         password=request.getParameter("password");
         System.out.println(user_name);
+        String url = " http://localhost:8080/ProtectedResource";
 
         if(user_name==null){
             access_Token = (String)session.getAttribute("access_token");
 //            request.setAttribute("Authorization", "Bearer " + access_Token);
 //            request.getRequestDispatcher("ProtectedResource").forward(request, response);
-            String url = " http://localhost:8080/ProtectedResource";
-
 
             URL object = new URL(url);
             HttpURLConnection con = (HttpURLConnection) object.openConnection();
@@ -74,14 +73,59 @@ public class Introspection extends HttpServlet {
 
             }
             catch (IOException e){
-                System.out.println(e);
+                System.out.println("RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR: "+con.getResponseCode());
+                response.setContentType("application/json");
+                response.setStatus(401);
             }
         }
         else{
             String encoding = Base64.getEncoder().encodeToString(
                     (user_name+":"+password).getBytes("utf-8"));
-            request.setAttribute("Authorization", "Basic " + encoding);
-            request.getRequestDispatcher("ProtectedResource").forward(request,response);
+//            request.setAttribute("Authorization", "Basic " + encoding);
+//            request.getRequestDispatcher("ProtectedResource").forward(request,response);
+
+            URL object = new URL(url);
+            HttpURLConnection con = (HttpURLConnection) object.openConnection();
+
+            con.setRequestMethod("POST");
+
+            //add request header
+            con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
+            con.setRequestProperty("Authorization", "Basic " + encoding);
+
+            try{
+                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+                String inputLine;
+                StringBuffer re = new StringBuffer();
+                while ((inputLine = in.readLine()) != null) {
+                    re.append(inputLine);
+                }
+                in.close();
+
+                //Read JSON response
+                JSONObject result = new JSONObject();
+//                System.out.println("output: "+re.toString());
+                org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
+//                System.out.println(myResponse);
+                Set<String> keys = myResponse.keySet();
+                for(String key : keys){
+                    System.out.println(key);
+                    result.put(key,myResponse.getString(key));
+                }
+
+                response.setContentType("application/json");
+                PrintWriter out = response.getWriter();
+
+                out.print(result);
+                out.flush();
+
+            }
+            catch (IOException e){
+                response.setContentType("application/json");
+                response.setStatus(401);
+                System.out.println(e);
+            }
         }
 
 //        String url = "http://localhost:8080/ProtectedResource";
