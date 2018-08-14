@@ -72,6 +72,29 @@
         <servlet-name>UserInfo</servlet-name>
         <url-pattern>/UserInfo</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TokenVerifier</servlet-name>
+        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TokenVerifier</servlet-name>
+        <url-pattern>/TokenVerifier</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TokenVerifier</servlet-name>
+        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TokenVerifier</servlet-name>
+        <url-pattern>/TokenVerifier</url-pattern>
+    </servlet-mapping>
+
+
     <servlet>
         <servlet-name>Introspection</servlet-name>
         <servlet-class>OAuthImplement.Introspection</servlet-class>
@@ -83,37 +106,6 @@
         <url-pattern>/Introspection</url-pattern>
     </servlet-mapping>
 
-    <servlet>
-        <servlet-name>TokenVerifier</servlet-name>
-        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
-
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>TokenVerifier</servlet-name>
-        <url-pattern>/TokenVerifier</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TokenVerifier</servlet-name>
-        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
-
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>TokenVerifier</servlet-name>
-        <url-pattern>/TokenVerifier</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>ProtectedResource</servlet-name>
-        <servlet-class>OAuthImplement.ProtectedResource</servlet-class>
-
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>ProtectedResource</servlet-name>
-        <url-pattern>/ProtectedResource</url-pattern>
-    </servlet-mapping>
 
     <servlet>
         <servlet-name>AccessResource</servlet-name>
@@ -126,23 +118,5 @@
         <url-pattern>/AccessResource</url-pattern>
     </servlet-mapping>
 
-    <filter>
-        <filter-name>ResourceFilter</filter-name>
-        <filter-class>OAuthImplement.Filters.ResourceFilter</filter-class>
-        <init-param>
-            <param-name>username</param-name>
-            <param-value>admin</param-value>
-        </init-param>
-        <init-param>
-            <param-name>password</param-name>
-            <param-value>admin</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>ResourceFilter</filter-name>
-        <url-pattern>/ProtectedResource</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
-    </filter-mapping>
 
 </web-app>
