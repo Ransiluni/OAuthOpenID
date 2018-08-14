@@ -72,29 +72,6 @@
         <servlet-name>UserInfo</servlet-name>
         <url-pattern>/UserInfo</url-pattern>
     </servlet-mapping>
-
-    <servlet>
-        <servlet-name>TokenVerifier</servlet-name>
-        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
-
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>TokenVerifier</servlet-name>
-        <url-pattern>/TokenVerifier</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>TokenVerifier</servlet-name>
-        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
-
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>TokenVerifier</servlet-name>
-        <url-pattern>/TokenVerifier</url-pattern>
-    </servlet-mapping>
-
-
     <servlet>
         <servlet-name>Introspection</servlet-name>
         <servlet-class>OAuthImplement.Introspection</servlet-class>
@@ -105,6 +82,29 @@
         <servlet-name>Introspection</servlet-name>
         <url-pattern>/Introspection</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>TokenVerifier</servlet-name>
+        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TokenVerifier</servlet-name>
+        <url-pattern>/TokenVerifier</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>TokenVerifier</servlet-name>
+        <servlet-class>OAuthImplement.TokenVerifier</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TokenVerifier</servlet-name>
+        <url-pattern>/TokenVerifier</url-pattern>
+    </servlet-mapping>
+
+
 
 
     <servlet>
