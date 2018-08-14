@@ -141,8 +141,9 @@
     <filter-mapping>
         <filter-name>ResourceFilter</filter-name>
         <url-pattern>/ProtectedResource</url-pattern>
-        <dispatcher>FORWARD</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
+        <!--<dispatcher>FORWARD</dispatcher>-->
+        <!--<dispatcher>REQUEST</dispatcher>-->
+        <!--<dispatcher>INCLUDE</dispatcher>-->
     </filter-mapping>
 
 </web-app>

@@ -37,7 +37,7 @@ public class ResourceFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse)resp;
 
-        String authString = (String)request.getAttribute("Authorization");
+        String authString = (String)request.getHeader("Authorization");
         if(authString != null && !authString.isEmpty()){
             String[] params = authString.split(" ");
 
@@ -82,14 +82,14 @@ public class ResourceFilter implements Filter {
 
                     //Read JSON response
                     org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
-
+                    System.out.println(myResponse);
                     String active = String.valueOf(myResponse.getBoolean("active"));
                     String scope = (String)myResponse.get("scope");
-                    session.setAttribute("scope",scope );
+//                    session.setAttribute("scope",scope );
                     String[] scopes = scope.split(" ");
-                    String client = (String)myResponse.get("client_id");
-
-                    String client_id = (String)session.getAttribute("client_id");
+//                    String client = (String)myResponse.get("client_id");
+//
+//                    String client_id = (String)session.getAttribute("client_id");
 
                     if("true".equals(active) && Arrays.asList(scopes).contains("read")){
                         chain.doFilter(request,response);
@@ -101,6 +101,7 @@ public class ResourceFilter implements Filter {
 
                 }
                 catch (IOException e){
+                    System.out.println(e);
 //                if (session != null) {
 //                    session.invalidate();
 //                }

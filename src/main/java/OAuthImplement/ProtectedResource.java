@@ -15,22 +15,22 @@ public class ProtectedResource extends HttpServlet {
     String scope,method;
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        HttpSession session = request.getSession(false);
-        method = (String)session.getAttribute("method");
+//        HttpSession session = request.getSession(false);
+//        method = (String)session.getAttribute("method");
 
         JSONObject result = new JSONObject();
         result.put("message","Hello World!");
 
-        if(!"basic".equals(method)){
-            scope = (String)session.getAttribute("scope");
-            String[] scopes = scope.split(" ");
-            if(Arrays.asList(scopes).contains("write")){
-                result.put("privileges","read write");
-            }
-            else{
-                result.put("privileges","read");
-            }
-        }
+//        if(!"basic".equals(method)){
+//            scope = (String)session.getAttribute("scope");
+//            String[] scopes = scope.split(" ");
+//            if(Arrays.asList(scopes).contains("write")){
+//                result.put("privileges","read write");
+//            }
+//            else{
+//                result.put("privileges","read");
+//            }
+//        }
 
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
