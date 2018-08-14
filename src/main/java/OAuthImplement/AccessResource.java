@@ -4,12 +4,18 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 public class AccessResource extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        HttpSession session = request.getSession(false);
+        if("token".equals(session.getAttribute("grant_type"))){
+            session.setAttribute("access_token",request.getParameter("accessToken"));
+        }
 
         PrintWriter out = response.getWriter();
         String title = "Access Resource";
@@ -63,12 +69,12 @@ public class AccessResource extends HttpServlet {
                                 "<td><input type=\"password\" id=\"password\" name=\"password\" style=\"width:450px\"/></td>" +
                             "</tr>" +
                             "<tr>" +
-                                 "<td><input type=\"submit\" value=\"Access using Basic Authentication\" formaction=\"Introspection\"/></td>" +
+                                 "<td><input type=\"submit\" value=\"Access using Basic Authentication\" formaction=\"RequestProcessor\"/></td>" +
                             "</tr>" +
                         "</table>" +
                     "</form>\n" +
                     "<form id=\"bearerForm\" style=\"display:none\">" +
-                        "<input type=\"submit\" value=\"Access using Token\" formaction=\"Introspection\"/>" +
+                        "<input type=\"submit\" value=\"Access using Token\" formaction=\"RequestProcessor\"/>" +
                     "</form>\n"
 
         );
