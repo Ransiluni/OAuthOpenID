@@ -83,6 +83,8 @@ public class ResourceFilter implements Filter {
                     //Read JSON response
                     org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
                     System.out.println(myResponse);
+
+
                     String active = String.valueOf(myResponse.getBoolean("active"));
                     String scope = (String)myResponse.get("scope");
 //                    session.setAttribute("scope",scope );
