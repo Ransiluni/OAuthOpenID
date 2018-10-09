@@ -19,6 +19,7 @@ public class AuthCodeURL extends HttpServlet {
         QueryBuilder codeBuilder=new QueryBuilder();
 
         String grant_type = request.getParameter("grant_type");
+        String provider = request.getParameter("provider");
 
         String scope = request.getParameter("scope");
         String clientCode = request.getParameter("clientCode");
@@ -30,6 +31,7 @@ public class AuthCodeURL extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("redirect_uri", redirect_uri);
         session.setAttribute("client_id", clientCode);
+        session.setAttribute("provider", provider);
         if("code".equals(grant_type)){
             codeBuilder.append("response_type", grant_type);
             session.setAttribute("grant_type", "authorization_code");
@@ -48,6 +50,7 @@ public class AuthCodeURL extends HttpServlet {
         codeBuilder.append("client_id",clientCode);
         codeBuilder.append("state",Constants.state);
         codeBuilder.append("redirect_uri",redirect_uri);
+//        codeBuilder.append("prompt","login");
 
 
         String url= codeBuilder.returnQuery(authEndPoint);

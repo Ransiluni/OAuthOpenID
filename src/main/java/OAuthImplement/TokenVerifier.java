@@ -50,6 +50,15 @@ public class TokenVerifier extends HttpServlet {
             String grantType = (String) session.getAttribute("grant_type");
             String nonce = (String) session.getAttribute("nonce");
             String access = request.getParameter("accessToken");
+            String provider = (String)session.getAttribute("provider");
+            String jwks;
+
+            if("WSO2".equals(provider)){
+                jwks = Constants.WSO2_JWKS_ENDPOINT;
+            }
+            else{
+                jwks = Constants.KEYCLOAK_JWKS_ENDPOINT;
+            }
 
 
             //at_hash validate
@@ -75,7 +84,7 @@ public class TokenVerifier extends HttpServlet {
             String modulus;
             String exponent;
             try{
-                String url = "https://localhost:9443/oauth2/jwks";
+                String url = jwks;
                 URL object = new URL(url);
                 HttpURLConnection con = (HttpURLConnection) object.openConnection();
 

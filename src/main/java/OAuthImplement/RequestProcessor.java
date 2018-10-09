@@ -21,11 +21,13 @@ import java.util.Set;
 
 public class RequestProcessor extends HttpServlet {
 
-    String access_Token,user_name,password;
+    String access_Token,user_name,password, provider;
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession(false);
+
+        provider = (String)session.getAttribute("provider");
 
 
         user_name=request.getParameter("username");
@@ -44,6 +46,7 @@ public class RequestProcessor extends HttpServlet {
             //add request header
             con.setRequestProperty("Content-type", "application/x-www-form-urlencoded");
             con.setRequestProperty("Authorization", "Bearer " + access_Token);
+            con.setRequestProperty("Provider", provider);
 
             try{
                 BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));

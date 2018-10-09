@@ -1,9 +1,6 @@
 package OAuthImplement;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -54,9 +51,15 @@ public class JSON extends HttpServlet {
             tokenBuilder.append("client_secret", code_verifier);
 
         }
-        String url = tokenBuilder.returnQuery((String)session.getAttribute("tokenEndpoint"));
-        System.out.println(url);
+//        String url = tokenBuilder.returnQuery((String)session.getAttribute("tokenEndpoint"));
+//        System.out.println(url);
+//        URL obj = new URL(url);
+
+        String url = request.getParameter("tokenEndpoint");
+        String params = tokenBuilder.returnQuery("");
+//        System.out.println(url);
         URL obj = new URL(url);
+//        System.out.println(params);
 
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         // optional default is GET
@@ -66,6 +69,13 @@ public class JSON extends HttpServlet {
 //        int responseCode = con.getResponseCode();
 //        System.out.println("\nSending 'GET' request to URL : " + url);
 //        System.out.println("Response Code : " + responseCode);
+
+        con.setDoOutput(true);
+        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+        wr.writeBytes(params);
+        wr.flush();
+        wr.close();
+
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -109,67 +119,67 @@ public class JSON extends HttpServlet {
             out.println(
                     "</head>\n" +
                     "<body>\n" +
-                    "<h2>Getting Access Token and ID Token for Authorization Code</h2>\n" +
-                    "<form action=\"\" id=\"tokenForm\" method=\"get\">\n" +
-                    "<table class=\"user_pass_table\">\n" +
-                    "<tr>\n" +
-                    "<td><label>Access Token :</label></td>\n" +
-                    "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" />\n" +
-                    "<td><input id=\"accessToken1\" name=\"accessToken1\"  style=\"width:450px\" hidden/>\n" +
-                    "<script type=\"text/javascript\">\n" +
-                    "var idToken = \"" + myResponse.getString("access_token") + "\";\n" +
-                    "var accessToken = atob(idToken.split(\".\")[1]);\n" +
-                    "document.getElementById(\"accessToken1\").value = accessToken;\n" +
-                    "</script>" +
-                    "</tr>\n" +
-                    "<tr>\n" +
-                    "<td><label>Refresh Token :</label></td>\n" +
-                    "<td><input id=\"refreshToken\" name=\"refreshToken\" value=" + myResponse.getString("refresh_token") + " style=\"width:450px\" />\n" +
-                    "</tr>\n" +
-                    "<tr>\n" +
-                    "<td><label>Scope :</label></td>\n" +
-                    "<td><input id=\"scope\" name=\"scope\" value=" + myResponse.getString("scope") + " style=\"width:450px\" readonly/>\n" +
-                    "</tr>\n" +
-                    "<tr>\n" +
-                    "<td><label>ID Token :</label></td>\n" +
-                    "<td><textarea id=\"idToken\" name=\"idToken\"  style=\"width:450px\" rows=\"20\" readonly>" + myResponse.getString("id_token") + " </textarea>\n" +
-                    "</tr>\n" +
-                    "<tr>\n" +
-                    "<td><label>Token Type :</label></td>\n" +
-                    "<td><input id=\"tokenType\" name=\"tokenType\" value=" + myResponse.getString("token_type") + " readonly />\n" +
-                    "</tr>\n" +
-                    "<tr>\n" +
-                    "<td><label>Expires In :</label></td>\n" +
-                    "<td><input id=\"expiresIn\" name=\"expiresIn\" value=" + myResponse.getInt("expires_in") + " readonly />\n" +
-                    "</tr>\n" +
-                    "<tr>\n" +
-                    "<tr>" +
-                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\"/></td>" +
-                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"User Info\" formaction=\"UserInfo\"/></td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<td colspan=\"2\"><input type=\"submit\" name=\"introspect\" value=\"Access Resource\" formaction=\"AccessResource\"/></td>" +
-                    "<td colspan=\"2\"><input type=\"submit\" name=\"validate\" value=\"Validate\" formaction=\"TokenVerifier\"/></td>" +
-                    "</tr>" +
-                    "<tr>" +
-                    "<td>" +
-                    "<input id=\"decodedToken\" name=\"decodedToken\" hidden/></td>\n" +
-                    "<script type=\"text/javascript\">\n" +
-                    "var idToken = \"" + myResponse.getString("id_token") + "\";\n" +
-                    "var decodedToken = atob(idToken.split(\".\")[1]);\n" +
-                    "document.getElementById(\"decodedToken\").value = decodedToken;\n" +
-                    "</script>" +
-                    "</td>" +
-                    "</tr>" +
-                    "</table>\n" +
-                    "</form>" +
+                        "<h2>Getting Access Token and ID Token for Authorization Code</h2>\n" +
+                        "<form action=\"\" id=\"tokenForm\" method=\"get\">\n" +
+                            "<table class=\"user_pass_table\">\n" +
+                                "<tr>\n" +
+                                    "<td><label>Access Token :</label></td>\n" +
+                                    "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" />\n" +
+                                    "<td><input id=\"accessToken1\" name=\"accessToken1\"  style=\"width:450px\" hidden/>\n" +
+                                    "<script type=\"text/javascript\">\n" +
+                                        "var idToken = \"" + myResponse.getString("access_token") + "\";\n" +
+                                        "var accessToken = atob(idToken.split(\".\")[1]);\n" +
+                                        "document.getElementById(\"accessToken1\").value = accessToken;\n" +
+                                    "</script>" +
+                                "</tr>\n" +
+                                "<tr>\n" +
+                                    "<td><label>Refresh Token :</label></td>\n" +
+                                    "<td><input id=\"refreshToken\" name=\"refreshToken\" value=" + myResponse.getString("refresh_token") + " style=\"width:450px\" />\n" +
+                                "</tr>\n" +
+                                "<tr>\n" +
+                                    "<td><label>Scope :</label></td>\n" +
+                                    "<td><input id=\"scope\" name=\"scope\" value=" + myResponse.getString("scope") + " style=\"width:450px\" readonly/>\n" +
+                                "</tr>\n" +
+                                "<tr>\n" +
+                                    "<td><label>ID Token :</label></td>\n" +
+                                    "<td><textarea id=\"idToken\" name=\"idToken\"  style=\"width:450px\" rows=\"20\" readonly>" + myResponse.getString("id_token") + " </textarea>\n" +
+                                "</tr>\n" +
+                                "<tr>\n" +
+                                    "<td><label>Token Type :</label></td>\n" +
+                                    "<td><input id=\"tokenType\" name=\"tokenType\" value=" + myResponse.getString("token_type") + " readonly />\n" +
+                                "</tr>\n" +
+                                "<tr>\n" +
+                                    "<td><label>Expires In :</label></td>\n" +
+                                    "<td><input id=\"expiresIn\" name=\"expiresIn\" value=" + myResponse.getInt("expires_in") + " readonly />\n" +
+                                "</tr>\n" +
+                                "<tr>\n" +
+                                "<tr>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"Token Info\" formaction=\"TokenInfo\"/></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"tokenInfo\" value=\"User Info\" formaction=\"UserInfo\"/></td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"introspect\" value=\"Access Resource\" formaction=\"AccessResource\"/></td>" +
+                                    "<td colspan=\"2\"><input type=\"submit\" name=\"validate\" value=\"Validate\" formaction=\"TokenVerifier\"/></td>" +
+                                "</tr>" +
+                                "<tr>" +
+                                    "<td>" +
+                                        "<input id=\"decodedToken\" name=\"decodedToken\" hidden/></td>\n" +
+                                        "<script type=\"text/javascript\">\n" +
+                                            "var idToken = \"" + myResponse.getString("id_token") + "\";\n" +
+                                            "var decodedToken = atob(idToken.split(\".\")[1]);\n" +
+                                            "document.getElementById(\"decodedToken\").value = decodedToken;\n" +
+                                        "</script>" +
+                                    "</td>" +
+                                "</tr>" +
+                            "</table>\n" +
+                        "</form>" +
                     "</body>\n" +
                     "</html>"
             );
 
         } catch (Exception e) {
             System.out.println(e);
-            response.sendRedirect("home?errorMessage=Inputs Not Valid");
+            response.sendRedirect("home?errorMessage="+e);
         }
 
 

@@ -12,11 +12,12 @@ import java.io.PrintWriter;
 
 public class OAuthClient extends HttpServlet {
 
-    String tokenEndpoint = "https://localhost:9443/oauth2/token";
+    String tokenEndpoint;
     String redirect_uri;
     String grant_type;
     String client_id;
     String client_secret;
+    String provider;
 
 
 
@@ -75,9 +76,17 @@ public class OAuthClient extends HttpServlet {
         try{
 
         HttpSession session = request.getSession(false);
+        provider = (String)session.getAttribute("provider");
         redirect_uri = (String)session.getAttribute("redirect_uri");
         grant_type = (String)session.getAttribute("grant_type");
         client_id = (String)session.getAttribute("client_id");
+
+        if("WSO2".equals(provider)){
+            tokenEndpoint = Constants.WSO2_TOKEN_ENDPOINT;
+        }
+        else{
+            tokenEndpoint = Constants.KEYCLOAK_TOKEN_ENDPOINT;
+        }
 
         if("authorization_code".equals(grant_type)){
             String docType =

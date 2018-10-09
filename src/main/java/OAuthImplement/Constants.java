@@ -54,4 +54,18 @@ public class Constants {
     // Form post constants
     public static final String OAUTH2_FORM_POST = "form_post";
     public static final String OAUTH2_RESPONSE_MODE = "response_mode";
+
+    //WSO2 Endpoints
+    public static final String WSO2_AUTH_ENDPOINT = "https://localhost:9443/oauth2/authorize";
+    public static final String WSO2_TOKEN_ENDPOINT = "https://localhost:9443/oauth2/token";
+    public static final String WSO2_INTROSPECTION_ENDPOINT = "https://localhost:9443/oauth2/introspect";
+    public static final String WSO2_USERINFO_ENDPOINT = "";
+    public static final String WSO2_JWKS_ENDPOINT = "https://localhost:9443/oauth2/jwks";
+
+    //Keycloak Endpoints
+    public static final String KEYCLOAK_AUTH_ENDPOINT = "http://localhost:8082/auth/realms/IFS/protocol/openid-connect/auth";
+    public static final String KEYCLOAK_TOKEN_ENDPOINT = "http://localhost:8082/auth/realms/IFS/protocol/openid-connect/token";
+    public static final String KEYCLOAK_INTROSPECTION_ENDPOINT = "http://localhost:8082/auth/realms/IFS/protocol/openid-connect/token/introspect";
+    public static final String KEYCLOAK_USERINFO_ENDPOINT = "";
+    public static final String KEYCLOAK_JWKS_ENDPOINT = "http://localhost:8082/auth/realms/IFS/protocol/openid-connect/certs";
 }

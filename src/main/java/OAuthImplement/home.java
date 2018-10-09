@@ -22,6 +22,7 @@ public class home extends HttpServlet {
     String authEndpoint;
     String callbackURI ;
     String accessTokenEndpoint ;
+    String provider;
 
 
 
@@ -29,9 +30,8 @@ public class home extends HttpServlet {
 
         scope = "openid";
         grantType = "code";
-        authEndpoint = "https://localhost:9443/oauth2/authorize";
         callbackURI = "http://localhost:8080/OAuthDemoApp/home.jsp";
-        accessTokenEndpoint = "https://localhost:9443/oauth2/token";
+
 
 
     }
@@ -43,6 +43,17 @@ public class home extends HttpServlet {
         if (session != null) {
             session.invalidate();
         }
+
+        provider = request.getParameter("provider");
+        if("WSO2".equals(provider)){
+            authEndpoint = Constants.WSO2_AUTH_ENDPOINT;
+            accessTokenEndpoint = Constants.WSO2_TOKEN_ENDPOINT;
+        }
+        else{
+            authEndpoint = Constants.KEYCLOAK_AUTH_ENDPOINT;
+            accessTokenEndpoint = Constants.KEYCLOAK_TOKEN_ENDPOINT;
+        }
+
 
         response.setContentType("text/html");
 
@@ -102,6 +113,9 @@ public class home extends HttpServlet {
                             "</tr>\n"+
                             "<tr>" +
                                 "<td>Callback URI : </td><td colspan=\"4\"><input type=\"text\" name=\"redirect_uri\" id=\"callbackURI\" placeholder=\"Enter callback URI\"  size=\"50\" ></td>" +
+                            "</tr>\n"+
+                            "<tr>" +
+                                "<td colspan=\"4\"><input type=\"text\" name=\"provider\" id=\"provider\" value=" + provider +" hidden></td>" +
                             "</tr>\n"+
                             "<tr>" +
                                 "<td colspan=\"2\"><input type=\"submit\" name=\"authorize\" value=\"Authorize\" onclick=\"alertVal()\"/></td>" +
