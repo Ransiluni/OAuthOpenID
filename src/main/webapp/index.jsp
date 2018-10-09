@@ -3,8 +3,9 @@
 <body>
     <h2>OAuth Prototype App</h2>
     <form action="home">
-        <input type="checkbox" name="provider" value="WSO2"> Use WSO2 Identity Server<br>
-        <input type="checkbox" name="provider" value="Keycloak"> Use Keycloak<br>
+        <input type="radio" name="provider" value="WSO2"> Use WSO2 Identity Server<br>
+        <input type="radio" name="provider" value="Keycloak"> Use Keycloak<br>
+        <br>
         <input type="submit" value="Start Demo">
      </form>
 

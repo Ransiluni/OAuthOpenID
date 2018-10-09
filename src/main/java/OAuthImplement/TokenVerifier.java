@@ -52,12 +52,15 @@ public class TokenVerifier extends HttpServlet {
             String access = request.getParameter("accessToken");
             String provider = (String)session.getAttribute("provider");
             String jwks;
+            String issuer;
 
             if("WSO2".equals(provider)){
                 jwks = Constants.WSO2_JWKS_ENDPOINT;
+                issuer = Constants.WSO2_ISSUER;
             }
             else{
                 jwks = Constants.KEYCLOAK_JWKS_ENDPOINT;
+                issuer = Constants.KEYCLOAK_ISSUER;
             }
 
 
@@ -127,21 +130,21 @@ public class TokenVerifier extends HttpServlet {
 
                     if ("authorization_code".equals(grantType)) {
                         JWTVerifier verifier = JWT.require(alg)
-                                .withIssuer("https://localhost:9443/oauth2/token")
-                                .withSubject("admin")
+                                .withIssuer(issuer)
+//                                .withSubject("admin")
                                 .withAudience(audience)
-                                .withClaim("at_hash", at_hash)
+//                                .withClaim("at_hash", at_hash)
                                 .build();
 
                         DecodedJWT jwt = verifier.verify(token);
                     }
                     if ("token".equals(grantType)) {
                         JWTVerifier verifier = JWT.require(alg)
-                                .withIssuer("https://localhost:9443/oauth2/token")
-                                .withSubject("admin")
+                                .withIssuer(issuer)
+//                                .withSubject("admin")
                                 .withAudience(audience)
                                 .withClaim("nonce", nonce)
-                                .withClaim("at_hash", at_hash)
+//                                .withClaim("at_hash", at_hash)
                                 .build();
 
                         DecodedJWT jwt = verifier.verify(token);
