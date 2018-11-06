@@ -124,7 +124,8 @@ public class JSON extends HttpServlet {
                             "<table class=\"user_pass_table\">\n" +
                                 "<tr>\n" +
                                     "<td><label>Access Token :</label></td>\n" +
-                                    "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" />\n" +
+//                                    "<td><input id=\"accessToken\" name=\"accessToken\" value=" + myResponse.getString("access_token") + " style=\"width:450px\" />\n" +
+                                    "<td><textarea id=\"accessToken\" name=\"accessToken\"  style=\"width:450px\" rows=\"20\" readonly>" + myResponse.getString("access_token") + " </textarea>\n" +
                                     "<td><input id=\"accessToken1\" name=\"accessToken1\"  style=\"width:450px\" hidden/>\n" +
                                     "<script type=\"text/javascript\">\n" +
                                         "var idToken = \"" + myResponse.getString("access_token") + "\";\n" +
