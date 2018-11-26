@@ -95,30 +95,10 @@ public class TokenVerifier extends HttpServlet {
                 LoadingCache<String, JSONArray> keyCache = Cache.getLoadingCache();
                 System.out.println("Cache size: " + keyCache.size());
                 JSONArray myArray = keyCache.get(jwks);
-//                System.out.println(keyCache.get(jwks).toString());
-//                String url = jwks;
-//                URL object = new URL(url);
-//                HttpURLConnection con = (HttpURLConnection) object.openConnection();
-//
-//                con.setRequestMethod("GET");
-//                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-//
-//                String inputLine;
-//                StringBuffer re = new StringBuffer();
-//                while ((inputLine = in.readLine()) != null) {
-//                    re.append(inputLine);
-//                }
-//                in.close();
-//
-//                org.json.JSONObject myResponse = new org.json.JSONObject(re.toString());
-//                JSONArray myArray = myResponse.getJSONArray("keys");
+
                 kid = myArray.getJSONObject(0).getString("kid");
                 modulus = myArray.getJSONObject(0).getString("n");
                 exponent = myArray.getJSONObject(0).getString("e");
-
-//                kid = "_R_IgaycOv9pmbMZzC-7dbCLMIFy5RnmNguDp_cX-Ks";
-//                modulus = "oFxkGaVraJ4O89y_awKU49U5TNbog-s-dOgkYpElx3YKv5lShzyg3MI507_a8GFbJdBRLMTP-YQSd6HmkYRhgCc1VQyEd1UrtYffYR6cO5MODwNWehYNU6cu62jN32lPxzIouN0IOVy6SyuVN7xByuVW5AXPJt0m08pjeWUwBCw_08JLi0DF7z8fmcbdn3xknR2KupZ84xMROMuB6at0S1J3jHkbNp-H_KeuwBuS4XbP0Lp4PuQu2qT4BI7g-m2n_7CEdhLwB-9k89DcI9mBoP-eIBtUpTuAOg-t0ycPEFWta-R1AWJuZQcHnsQwqcbjdmmcYGSwPm3MzZZh1RFhs988kasiFiesb2vOvIXsjbFE9BxuBEc2gXe2h7N4iMqW46sPwZ7_PwWPIpeVJ7-98FXliRNWcBW5h8RAY4-zFjnnKyCgnHfV_KsIyGrv-DGcofXEN3y7-GkBQyyUwk29HircRpydQEFXw_l93hYl7-Y9MFIR5RBIygj3mZAB9hYqJ8guwK3tuAyq0FsfA1h6a0HRj2Unx2V3lINKMo53h49oRjLS15jojFteKM28TefqPtfB4QlUrv55m4iGbum9JiZcPn7IWzCtWasW2RzQs6-oIcBdnk3ybGv8uzWVH2w7wbObya8KlenjS5jh4Q8-6z7ufIcLebJBrzIps72Shlk";
-//                exponent = "AQAB";
 
                 DecodedJWT decJWT = JWT.decode(token);
                 if(kid.equals(decJWT.getKeyId())){
@@ -169,7 +149,7 @@ public class TokenVerifier extends HttpServlet {
                     );
                 }
                 else{
-                    throw new IOException();
+                    throw new IOException("kid mismatch!");
                 }
 
 
@@ -189,16 +169,73 @@ public class TokenVerifier extends HttpServlet {
 //            }
             } catch (Exception e) {
                 System.out.println("Error: " + e);
-                if (session != null) {
-                    session.invalidate();
+                System.out.println("Inserting the key directly...");
+                try{
+                    LoadingCache<String, JSONArray> keyCache = Cache.getLoadingCache();
+                    keyCache.put(jwks, Cache.getCertificate(jwks));
+                    System.out.println("Cache size: " + keyCache.size());
+                    JSONArray myArray = keyCache.get(jwks);
+
+                    kid = myArray.getJSONObject(0).getString("kid");
+                    modulus = myArray.getJSONObject(0).getString("n");
+                    exponent = myArray.getJSONObject(0).getString("e");
+
+                    DecodedJWT decJWT = JWT.decode(token);
+                    if(kid.equals(decJWT.getKeyId())){
+
+                        RSAPublicKey publicKey = null;
+
+                        KeyFactory kf = KeyFactory.getInstance("RSA");
+                        BigInteger mod = new BigInteger(1,Base64.decodeBase64(modulus));
+                        BigInteger exp = new BigInteger(1,Base64.decodeBase64(exponent));
+
+                        publicKey = (RSAPublicKey) kf.generatePublic(new RSAPublicKeySpec(mod,exp));
+
+                        Algorithm alg = Algorithm.RSA256(publicKey, null);
+
+                        if ("authorization_code".equals(grantType)) {
+                            JWTVerifier verifier = JWT.require(alg)
+                                    .withIssuer(issuer)
+//                                .withSubject("admin")
+                                    .withAudience(audience)
+//                                .withClaim("at_hash", at_hash)
+                                    .build();
+
+                            DecodedJWT jwt = verifier.verify(token);
+                        }
+                        if ("token".equals(grantType)) {
+                            JWTVerifier verifier = JWT.require(alg)
+                                    .withIssuer(issuer)
+//                                .withSubject("admin")
+                                    .withAudience(audience)
+                                    .withClaim("nonce", nonce)
+//                                .withClaim("at_hash", at_hash)
+                                    .build();
+
+                            DecodedJWT jwt = verifier.verify(token);
+                        }
+                        out.println(
+                                "<h2>\" Token Verified.  \"</title>" +
+                                        "</body>\n" +
+                                        "</html>"
+                        );
+                    }
+                    else{
+                        throw new IOException("kid mismatch!");
+                    }
+                }catch(Exception ex){
+                    if (session != null) {
+                        session.invalidate();
+                    }
+                    out.println(
+                            "<h2>\" Invalid ID token.  \"</title>" +
+                                    "<form action=\"home\" method=\"get\" >" +
+                                    "<input type=\"submit\" value=\"Go back to Home Page\">" +
+                                    "</body>\n" +
+                                    "</html>"
+                    );
                 }
-                out.println(
-                        "<h2>\" Invalid ID token.  \"</title>" +
-                                "<form action=\"home\" method=\"get\" >" +
-                                "<input type=\"submit\" value=\"Go back to Home Page\">" +
-                                "</body>\n" +
-                                "</html>"
-                );
+
             }
 
         } catch (Exception e) {

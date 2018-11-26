@@ -1,8 +1,6 @@
 package OAuthImplement;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.*;
 import org.json.JSONArray;
 
 import java.io.BufferedReader;
@@ -16,8 +14,15 @@ public class Cache {
     private static LoadingCache<String, JSONArray> keyCache;
 
     static {
+        RemovalListener<String, JSONArray> removalListener = new RemovalListener<String, JSONArray>() {
+            public void onRemoval(RemovalNotification<String,JSONArray> removal) {
+                System.out.println("Certificate refreshed!");
+            }
+        };
+
         keyCache = CacheBuilder.newBuilder()
                 .refreshAfterWrite(1, TimeUnit.MINUTES)
+                .removalListener(removalListener)
                 .build(
                         new CacheLoader<String, JSONArray>() {
                             @Override
