@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 public class Cache {
 
     private static LoadingCache<String, JSONArray> keyCache;
+    public static long staticHitCount;
 
     static {
         RemovalListener<String, JSONArray> removalListener = new RemovalListener<String, JSONArray>() {
@@ -21,8 +22,9 @@ public class Cache {
         };
 
         keyCache = CacheBuilder.newBuilder()
-                .refreshAfterWrite(1, TimeUnit.MINUTES)
+                .refreshAfterWrite(10, TimeUnit.MINUTES)
                 .removalListener(removalListener)
+                .recordStats()
                 .build(
                         new CacheLoader<String, JSONArray>() {
                             @Override
@@ -36,6 +38,7 @@ public class Cache {
 
     public static JSONArray getCertificate(String url){
         System.out.println("Getting the certificate from jwks");
+         staticHitCount = keyCache.stats().hitCount();
         try{
             URL object = new URL(url);
             HttpURLConnection con = (HttpURLConnection) object.openConnection();

@@ -219,7 +219,7 @@ public class OAuthClient extends HttpServlet {
                                 "</tr>\n" +
                                 "<tr>\n" +
                                     "<td><label>ID Token :</label></td>\n" +
-                                    "<td><textarea id=\"idToken\" name=\"idToken\" style=\"width:450px\" rows=\"20\" readonly></textarea>\n" +
+                                    "<td><textarea id=\"idToken\" name=\"idToken\" style=\"width:450px\" rows=\"20\"></textarea>\n" +
                                         "<script type=\"text/javascript\">\n" +
                                             "document.getElementById(\"idToken\").value = getIDToken();\n" +
                                         "</script>" +

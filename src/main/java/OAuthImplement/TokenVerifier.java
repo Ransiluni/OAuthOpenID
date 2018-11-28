@@ -169,61 +169,70 @@ public class TokenVerifier extends HttpServlet {
 //            }
             } catch (Exception e) {
                 System.out.println("Error: " + e);
-                System.out.println("Inserting the key directly...");
                 try{
                     LoadingCache<String, JSONArray> keyCache = Cache.getLoadingCache();
-                    keyCache.put(jwks, Cache.getCertificate(jwks));
-                    System.out.println("Cache size: " + keyCache.size());
-                    JSONArray myArray = keyCache.get(jwks);
+                    long count = keyCache.stats().hitCount();
+                    System.out.println(Cache.staticHitCount);
+                    System.out.println(count);
+                    if(count - Cache.staticHitCount > 2){
+                        keyCache.put(jwks, Cache.getCertificate(jwks));
+                        System.out.println("Cache size: " + keyCache.size());
+                        JSONArray myArray = keyCache.get(jwks);
 
-                    kid = myArray.getJSONObject(0).getString("kid");
-                    modulus = myArray.getJSONObject(0).getString("n");
-                    exponent = myArray.getJSONObject(0).getString("e");
+                        kid = myArray.getJSONObject(0).getString("kid");
+                        modulus = myArray.getJSONObject(0).getString("n");
+                        exponent = myArray.getJSONObject(0).getString("e");
 
-                    DecodedJWT decJWT = JWT.decode(token);
-                    if(kid.equals(decJWT.getKeyId())){
+                        DecodedJWT decJWT = JWT.decode(token);
+                        if(kid.equals(decJWT.getKeyId())){
 
-                        RSAPublicKey publicKey = null;
+                            RSAPublicKey publicKey = null;
 
-                        KeyFactory kf = KeyFactory.getInstance("RSA");
-                        BigInteger mod = new BigInteger(1,Base64.decodeBase64(modulus));
-                        BigInteger exp = new BigInteger(1,Base64.decodeBase64(exponent));
+                            KeyFactory kf = KeyFactory.getInstance("RSA");
+                            BigInteger mod = new BigInteger(1,Base64.decodeBase64(modulus));
+                            BigInteger exp = new BigInteger(1,Base64.decodeBase64(exponent));
 
-                        publicKey = (RSAPublicKey) kf.generatePublic(new RSAPublicKeySpec(mod,exp));
+                            publicKey = (RSAPublicKey) kf.generatePublic(new RSAPublicKeySpec(mod,exp));
 
-                        Algorithm alg = Algorithm.RSA256(publicKey, null);
+                            Algorithm alg = Algorithm.RSA256(publicKey, null);
 
-                        if ("authorization_code".equals(grantType)) {
-                            JWTVerifier verifier = JWT.require(alg)
-                                    .withIssuer(issuer)
+                            if ("authorization_code".equals(grantType)) {
+                                JWTVerifier verifier = JWT.require(alg)
+                                        .withIssuer(issuer)
 //                                .withSubject("admin")
-                                    .withAudience(audience)
+                                        .withAudience(audience)
 //                                .withClaim("at_hash", at_hash)
-                                    .build();
+                                        .build();
 
-                            DecodedJWT jwt = verifier.verify(token);
-                        }
-                        if ("token".equals(grantType)) {
-                            JWTVerifier verifier = JWT.require(alg)
-                                    .withIssuer(issuer)
+                                DecodedJWT jwt = verifier.verify(token);
+                            }
+                            if ("token".equals(grantType)) {
+                                JWTVerifier verifier = JWT.require(alg)
+                                        .withIssuer(issuer)
 //                                .withSubject("admin")
-                                    .withAudience(audience)
-                                    .withClaim("nonce", nonce)
+                                        .withAudience(audience)
+                                        .withClaim("nonce", nonce)
 //                                .withClaim("at_hash", at_hash)
-                                    .build();
+                                        .build();
 
-                            DecodedJWT jwt = verifier.verify(token);
+                                DecodedJWT jwt = verifier.verify(token);
+                            }
+                            out.println(
+                                    "<h2>\" Token Verified.  \"</title>" +
+                                            "</body>\n" +
+                                            "</html>"
+                            );
                         }
-                        out.println(
-                                "<h2>\" Token Verified.  \"</title>" +
-                                        "</body>\n" +
-                                        "</html>"
-                        );
+                        else{
+                            throw new IOException("kid mismatch!!");
+                        }
                     }
-                    else{
-                        throw new IOException("kid mismatch!");
+                    else {
+                        throw new IOException("Unauthorized");
                     }
+
                 }catch(Exception ex){
+                    System.out.println("Error 2: "+ex);
                     if (session != null) {
                         session.invalidate();
                     }
@@ -239,6 +248,7 @@ public class TokenVerifier extends HttpServlet {
             }
 
         } catch (Exception e) {
+            System.out.println(e);
             response.sendRedirect("home?errorMessage=ID Token Error");
 
         }
